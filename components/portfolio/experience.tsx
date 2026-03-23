@@ -45,15 +45,19 @@ export default function Experience(): JSX.Element {
               key={experience.id}
               className="p-px" 
               borderRadius={16}
-              glowColor="142 70 45" 
+              glowColor="34 197 94" 
               colors={['#22c55e', '#10b981', '#4ade80']} 
-              backgroundColor="#030712"
-              glowIntensity={0.8}
+              backgroundColor="transparent"
+              glowIntensity={1}
             >
-              {/* Inner card - FIXED layout for mobile overlap */}
-              <div className="p-6 md:p-8 group cursor-default">
-                <div className="space-y-4">
-                  {/* Header Fix: Stacks on mobile, row on desktop */}
+              {/* Inner card with Glassmorphism */}
+              <div className="p-6 md:p-8 group cursor-default bg-black/40 backdrop-blur-xl rounded-[15px] relative overflow-hidden">
+                
+                {/* Background Accents */}
+                <div className="absolute -top-10 -right-10 w-32 h-32 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-colors"></div>
+                <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-accent/5 rounded-full blur-3xl"></div>
+
+                <div className="relative z-10 space-y-4">
                   <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                     <div className="flex items-start gap-4 flex-1">
                       <div className="mt-1 p-2 rounded-lg bg-primary/20 border border-primary/30 group-hover:border-primary/60 transition-colors shrink-0">
@@ -66,36 +70,33 @@ export default function Experience(): JSX.Element {
                         <p className="text-foreground/70 font-medium">{experience.company}</p>
                       </div>
                     </div>
-                    {/* Period sits nicely underneath on mobile */}
                     <div className="flex items-center gap-2 text-foreground/50 text-sm pl-14 sm:pl-0">
                       <Calendar size={16} className="shrink-0" />
                       <span className="whitespace-nowrap">{experience.period}</span>
                     </div>
                   </div>
 
-                  {/* Description */}
-                  <p className="text-foreground/70 leading-relaxed italic">
-                    "{experience.description}"
+                  {/* FIXED: Removed parentheses from description */}
+                  <p className="text-foreground/70 leading-relaxed italic border-l-2 border-primary/30 pl-4 py-1">
+                    {experience.description}
                   </p>
 
-                  {/* Achievements Grid */}
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4">
                     {experience.achievements.map((achievement, idx) => (
                       <div
                         key={idx}
-                        className="p-3 rounded-lg bg-white/5 border border-white/5 group-hover:border-primary/20 transition-all"
+                        className="p-3 rounded-lg bg-white/5 border border-white/5 group-hover:border-primary/20 transition-all backdrop-blur-sm"
                       >
                         <p className="text-sm text-foreground/70 group-hover:text-foreground/90">{achievement}</p>
                       </div>
                     ))}
                   </div>
 
-                  {/* Technologies */}
                   <div className="flex flex-wrap gap-2 pt-4">
                     {experience.technologies.map((tech) => (
                       <span
                         key={tech}
-                        className="px-3 py-1 text-xs font-semibold bg-primary/10 text-primary rounded-full border border-primary/20"
+                        className="px-3 py-1 text-xs font-semibold bg-primary/10 text-primary rounded-full border border-primary/20 hover:bg-primary/20 transition-colors"
                       >
                         {tech}
                       </span>
@@ -107,8 +108,8 @@ export default function Experience(): JSX.Element {
           ))}
         </div>
 
-        {/* --- CONTACT SECTION IS BACK BELOW --- */}
-        <div id="contact" className="mt-20 text-center p-8 rounded-2xl bg-white/5 border border-accent/20 relative overflow-hidden">
+        {/* Contact Section */}
+        <div id="contact" className="mt-20 text-center p-8 rounded-2xl bg-white/5 border border-accent/20 relative overflow-hidden backdrop-blur-md">
           <div className="absolute -top-24 -left-24 w-48 h-48 bg-accent/10 rounded-full blur-[80px]"></div>
           
           <h3 className="text-3xl font-bold text-accent mb-4 tracking-tight">Ready to Work Together?</h3>
