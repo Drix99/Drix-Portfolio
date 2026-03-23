@@ -2,7 +2,7 @@
 
 import { Briefcase, Calendar } from 'lucide-react'
 import { JSX } from 'react'
-
+import BorderGlow from '../BorderGlow';
 
 interface ExperienceItem {
   id: number
@@ -23,11 +23,11 @@ export default function Experience(): JSX.Element {
       period: 'Jun 16, 2025 - Sept 17, 2025',
       description: 'We Developed a Document Tracking System for the National Food Authority to streamline inter-departmental workflows and improve record management efficiency.',
       achievements: [
-        'We recieved a certificate of appreciation for our work',
-        'Exprienced how the office works and how to work in a team',
-        'Gained experience in working with clients and understanding their needs',
+        'Received a certificate of appreciation for our work',
+        'Experienced office workflows and team collaboration',
+        'Gained experience in client needs assessment',
       ],
-      technologies: ['Vue.js', 'MySQL', 'Laravel','Github', 'Tailwind CSS'],
+      technologies: ['Vue.js', 'MySQL', 'Laravel', 'Github', 'Tailwind CSS'],
     },
   ]
 
@@ -39,71 +39,76 @@ export default function Experience(): JSX.Element {
           My professional journey building innovative solutions and growing as a developer.
         </p>
 
-        <div className="space-y-8">
-          {experiences.map((experience, index) => (
-            <div
+        <div className="space-y-12">
+          {experiences.map((experience) => (
+            <BorderGlow
               key={experience.id}
-              className="group relative neon-border rounded-lg p-6 hover-glow-secondary transition-all duration-300"
+              className="p-px" 
+              borderRadius={16}
+              glowColor="142 70 45" 
+              colors={['#22c55e', '#10b981', '#4ade80']} 
+              backgroundColor="#030712"
+              glowIntensity={0.8}
             >
-              {/* Timeline connector */}
-              {index < experiences.length - 1 && (
-                <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-0.5 h-8 bg-linear-to-b from-primary to-transparent"></div>
-              )}
-
-              <div className="space-y-4">
-                {/* Header */}
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex items-start gap-4 flex-1">
-                    <div className="mt-1 p-2 rounded-lg bg-primary/20 border border-primary/30 group-hover:border-primary/60 transition-colors">
-                      <Briefcase className="text-primary" size={20} />
+              {/* Inner card - FIXED layout for mobile overlap */}
+              <div className="p-6 md:p-8 group cursor-default">
+                <div className="space-y-4">
+                  {/* Header Fix: Stacks on mobile, row on desktop */}
+                  <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+                    <div className="flex items-start gap-4 flex-1">
+                      <div className="mt-1 p-2 rounded-lg bg-primary/20 border border-primary/30 group-hover:border-primary/60 transition-colors shrink-0">
+                        <Briefcase className="text-primary" size={20} />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <h3 className="text-xl font-bold text-accent group-hover:text-primary transition-colors wrap-break-word leading-tight">
+                          {experience.role}
+                        </h3>
+                        <p className="text-foreground/70 font-medium">{experience.company}</p>
+                      </div>
                     </div>
-                    <div className="flex-1">
-                      <h3 className="text-xl font-bold text-accent group-hover:text-primary transition-colors">
-                        {experience.role}
-                      </h3>
-                      <p className="text-foreground/70 font-medium">{experience.company}</p>
+                    {/* Period sits nicely underneath on mobile */}
+                    <div className="flex items-center gap-2 text-foreground/50 text-sm pl-14 sm:pl-0">
+                      <Calendar size={16} className="shrink-0" />
+                      <span className="whitespace-nowrap">{experience.period}</span>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2 text-foreground/50 text-sm whitespace-nowrap">
-                    <Calendar size={16} />
-                    <span>{experience.period}</span>
+
+                  {/* Description */}
+                  <p className="text-foreground/70 leading-relaxed italic">
+                    "{experience.description}"
+                  </p>
+
+                  {/* Achievements Grid */}
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4">
+                    {experience.achievements.map((achievement, idx) => (
+                      <div
+                        key={idx}
+                        className="p-3 rounded-lg bg-white/5 border border-white/5 group-hover:border-primary/20 transition-all"
+                      >
+                        <p className="text-sm text-foreground/70 group-hover:text-foreground/90">{achievement}</p>
+                      </div>
+                    ))}
                   </div>
-                </div>
 
-                {/* Description */}
-                <p className="text-foreground/70 leading-relaxed">{experience.description}</p>
-
-                {/* Achievements */}
-                <div className="grid md:grid-cols-3 gap-4 pt-4">
-                  {experience.achievements.map((achievement, idx) => (
-                    <div
-                      key={idx}
-                      className="p-3 rounded-lg bg-linear-to-br from-primary/5 to-accent/5 border border-primary/10 group-hover:border-primary/30 transition-all"
-                    >
-                      <p className="text-sm text-foreground/70">{achievement}</p>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Technologies */}
-                <div className="flex flex-wrap gap-2 pt-4">
-                  {experience.technologies.map((tech) => (
-                    <span
-                      key={tech}
-                      className="px-3 py-1 text-xs font-semibold bg-secondary/20 text-secondary rounded-full border border-secondary/30 hover:border-secondary/60 transition-colors"
-                    >
-                      {tech}
-                    </span>
-                  ))}
+                  {/* Technologies */}
+                  <div className="flex flex-wrap gap-2 pt-4">
+                    {experience.technologies.map((tech) => (
+                      <span
+                        key={tech}
+                        className="px-3 py-1 text-xs font-semibold bg-primary/10 text-primary rounded-full border border-primary/20"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
+            </BorderGlow>
           ))}
         </div>
 
-        {/* Call to Action */}
+        {/* --- CONTACT SECTION IS BACK BELOW --- */}
         <div id="contact" className="mt-20 text-center p-8 rounded-2xl bg-white/5 border border-accent/20 relative overflow-hidden">
-          {/* Optional: Subtle background glow for the CTA box */}
           <div className="absolute -top-24 -left-24 w-48 h-48 bg-accent/10 rounded-full blur-[80px]"></div>
           
           <h3 className="text-3xl font-bold text-accent mb-4 tracking-tight">Ready to Work Together?</h3>
@@ -112,25 +117,21 @@ export default function Experience(): JSX.Element {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            {/* Direct Gmail Link */}
             <a
-              href="https://mail.google.com/mail/?view=cm&fs=1&to=audric.suarez.bscs2022@gmail.com&su=Project%20Inquiry%20-%20Quest%20Start"
+              href="https://mail.google.com/mail/?view=cm&fs=1&to=audric.suarez.bscs2022@gmail.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="group px-8 py-3 bg-primary text-background font-bold rounded-lg hover-glow transition-all duration-300 flex items-center gap-2 w-full sm:w-fit justify-center"
+              className="px-8 py-3 bg-primary text-background font-bold rounded-lg hover:shadow-[0_0_20px_rgba(34,197,94,0.4)] transition-all duration-300 w-full sm:w-fit text-center"
             >
-              <span>Send Email</span>
-              <span className="text-xs opacity-50 group-hover:opacity-100 transition-opacity">(via Gmail)</span>
+              Send Email
             </a>
-
-            {/* Schedule Call / LinkedIn Alternative */}
             <a
               href="https://www.linkedin.com/in/audric-suarez-938403375/"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-8 py-3 border-2 border-accent text-accent font-semibold rounded-lg hover-glow-accent transition-all duration-300 w-full sm:w-fit text-center"
+              className="px-8 py-3 border-2 border-accent text-accent font-semibold rounded-lg hover:bg-accent/10 transition-all duration-300 w-full sm:w-fit text-center"
             >
-              Schedule Call / Connect
+              Connect on LinkedIn
             </a>
           </div>
 

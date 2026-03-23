@@ -31,24 +31,33 @@ export default function Navigation(): JSX.Element {
             </a>
           </div>
 
-          {/* Desktop Navigation */}
-          <div className="md:block">
+          {/* FIX: Added 'hidden' so GooeyNav doesn't show or block the icon on mobile */}
+          <div className="hidden md:block">
             <GooeyNav items={navItems} particleCount={10} />
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="md:hidden">
-            <button onClick={() => setIsOpen(!isOpen)} className="text-foreground/80">
-              {isOpen ? <X size={24} /> : <Menu size={24} />}
+          {/* Mobile Menu Button - Ensure it has a high z-index and clear visibility */}
+          <div className="md:hidden flex items-center">
+            <button 
+              onClick={() => setIsOpen(!isOpen)} 
+              className="text-foreground/80 hover:text-primary p-2 transition-colors relative z-60"
+              aria-label="Toggle Menu"
+            >
+              {isOpen ? <X size={28} /> : <Menu size={28} />}
             </button>
           </div>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Mobile Navigation Menu */}
         {isOpen && (
-          <div className="md:hidden border-t border-white/5 py-4 bg-[#030712]">
+          <div className="md:hidden border-t border-white/5 py-4 bg-[#030712] absolute left-0 right-0 top-20 shadow-2xl">
             {navItems.map((item) => (
-              <a key={item.label} href={item.href} className="block px-4 py-2 text-foreground/80 hover:text-primary transition-colors" onClick={() => setIsOpen(false)}>
+              <a 
+                key={item.label} 
+                href={item.href} 
+                className="block px-6 py-4 text-lg text-foreground/80 hover:text-primary hover:bg-white/5 transition-all" 
+                onClick={() => setIsOpen(false)}
+              >
                 {item.label}
               </a>
             ))}

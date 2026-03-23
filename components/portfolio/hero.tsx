@@ -2,8 +2,8 @@
 
 import { ArrowRight } from 'lucide-react'
 import { JSX } from 'react'
-import TrueFocus from '..//TrueFocus'
-import OrbitImages from '..//OrbitImages'
+import TrueFocus from '../TrueFocus'
+import OrbitImages from '../OrbitImages'
 
 export default function Hero(): JSX.Element {
   const techIcons = [
@@ -11,7 +11,7 @@ export default function Hero(): JSX.Element {
     "https://img.icons8.com/color/512/javascript--v1.png",
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZlDp2fH5Gx76m8Cx_y0Y1bREbUMe0Dg0RCQ&s",
     "https://images.seeklogo.com/logo-png/30/2/github-logo-png_seeklogo-304612.png",
-    "https://e7.pngegg.com/pngimages/140/948/png-clipart-blue-and-yellow-logo-python-logo-programmer-fierce-python-s-cdr-angle-thumbnail.png",
+    "https://e7.pngegg.com/pngimages/140/948/png-clipall-blue-and-yellow-logo-python-logo-programmer-fierce-python-s-cdr-angle-thumbnail.png",
     "https://img.icons8.com/color/512/typescript.png",
   ];
 
@@ -22,8 +22,8 @@ export default function Hero(): JSX.Element {
         {/* Left Column - Text */}
         <div className="z-20 space-y-8">
           <div className="space-y-4">
-            <p className="text-primary text-sm font-bold tracking-[0.3em] uppercase">Welcome to my portfolio</p>
-            <div className="relative inline-block">
+            <p className="text-primary text-sm font-bold tracking-[0.3em] uppercase text-center md:text-left">Welcome to my portfolio</p>
+            <div className="relative flex justify-center md:justify-start">
               <TrueFocus 
                 sentence="Audric Suarez"
                 manualMode={false}
@@ -33,12 +33,12 @@ export default function Hero(): JSX.Element {
                 pauseBetweenAnimations={1}
               />
             </div>
-            <p className="text-xl text-foreground/80 font-medium leading-tight">
+            <p className="text-xl text-foreground/80 font-medium leading-tight text-center md:text-left">
               Soon to be a Full-Stack Web Developer | UI/UX Enthusiast
             </p>
           </div>
 
-          <p className="text-foreground/60 text-lg max-w-md leading-relaxed">
+          <p className="text-foreground/60 text-lg max-w-md leading-relaxed text-center md:text-left mx-auto md:mx-0">
             Trying to debug life and Dota at the same time. <span className="text-accent italic font-medium">Spoiler: both crash often.</span>
           </p>
 
@@ -61,8 +61,8 @@ export default function Hero(): JSX.Element {
                 Get in Touch
               </a>
 
-              {/* Dota-Style Status Indicator */}
-              <div className="flex items-center gap-2 px-3 py-1 bg-white/5 rounded-full border border-white/10 shrink-0">
+              {/* FIX 1: HIDE STATUS ON MOBILE (Added hidden md:flex) */}
+              <div className="hidden md:flex items-center gap-2 px-3 py-1 bg-white/5 rounded-full border border-white/10 shrink-0">
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
@@ -76,13 +76,13 @@ export default function Hero(): JSX.Element {
         </div>
 
         {/* Right Column - The Orbit */}
-        <div className="relative w-full flex items-center justify-center overflow-visible">
+        {/* FIX 2: HIDE ORBIT ON MOBILE (Added hidden md:flex) */}
+        <div className="hidden md:flex relative w-full items-center justify-center overflow-visible">
           <OrbitImages
             images={techIcons}
             shape="ellipse"
-            // CALIBRATED SIZE:
-            radiusX={380} // Width of the orbit
-            radiusY={120} // Height/Depth of the orbit
+            radiusX={380} 
+            radiusY={120} 
             rotation={-12} 
             duration={30}
             itemSize={68} 
@@ -92,7 +92,6 @@ export default function Hero(): JSX.Element {
             pathWidth={1}
           />
           
-          {/* Ambient background glow */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-100 h-100 bg-primary/5 rounded-full blur-[100px] -z-10"></div>
         </div>
 
