@@ -8,29 +8,29 @@ export default function About(): JSX.Element {
     {
       category: 'Frontend',
       icon: Code2,
-      technologies: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Vue.js', 'Flutter']
+      technologies: ['TypeScript', 'Tailwind CSS', 'Vue.js', 'Flutter']
     },
     {
       category: 'Backend',
       icon: Zap,
-      technologies: ['Node.js', 'PHP', 'Laravel', 'Firebase', 'MySQL', 'REST APIs']
+      technologies: ['Node.js', 'PHP', 'Laravel', 'Firebase', 'MySQL']
     },
     {
       category: 'Tools & Platforms',
       icon: Target,
-      technologies: ['Git/Github', 'Figma', 'Docker', 'VS Code', 'Postman', 'Vercel']
+      technologies: ['GitHub', 'Figma', 'VS Code', 'Vercel']
     },
     {
       category: 'Soft Skills',
       icon: Users,
-      technologies: ['Problem Solving', 'Team Collaboration', 'UI/UX Design', 'Project Management', 'Documentation', 'Communication']
+      technologies: ['Problem Solving', 'Team Collaboration', 'UI/UX Design', 'Documentation', 'Communication']
     }
   ]
 
   const quickFacts = [
     { label: 'Projects Completed', value: '4' },
     { label: 'Years Experience', value: '2+' },
-    { label: 'Technologies', value: '15+' },
+    { label: 'Technologies', value: '13' },
     { label: 'Certifications', value: '5' }
   ]
 
