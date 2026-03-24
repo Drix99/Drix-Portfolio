@@ -23,7 +23,7 @@ export default function Experience(): JSX.Element {
       period: 'Jun 16, 2025 - Sept 17, 2025',
       description: 'We Developed a Document Tracking System for the National Food Authority to streamline inter-departmental workflows and improve record management efficiency.',
       achievements: [
-        'Received a certificate of appreciation for our work',
+        'Received a certificate of completion for our work',
         'Experienced office workflows and team collaboration',
         'Gained experience in client needs assessment',
       ],
