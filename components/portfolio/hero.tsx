@@ -18,10 +18,10 @@ export default function Hero(): JSX.Element {
   }, [showCerts]);
 
   const techIcons = [
-    "/images.jpeg",
-    "/IMG_20240919_100353_1774257687966.jpg",
-    "/IMG_20241222_140257_1774257686734.jpg",
-    "/IMG_20250714_165554_1774257684859.jpg",
+    "/cropped_circle_image.png",
+    "/cropped_circle_image (1).png",
+    "/cropped_circle_image (2).png",
+    "/cropped_circle_image (3).png",
   ];
 
   const myCertificates = [
