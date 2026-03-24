@@ -8,7 +8,7 @@ export default function Navigation(): JSX.Element {
   const [isOpen, setIsOpen] = useState(false)
 
   const navItems = [
-    { label: 'Home', href: '#about' },
+    { label: 'About', href: '#about' },
     { label: 'Projects', href: '#projects' },
     { label: 'Experience', href: '#experience' },
     { label: 'Contact', href: '#contact' },
