@@ -50,10 +50,7 @@ export default function Experience(): JSX.Element {
               backgroundColor="transparent"
               glowIntensity={1}
             >
-              {/* Inner card with Glassmorphism */}
               <div className="p-6 md:p-8 group cursor-default bg-black/40 backdrop-blur-xl rounded-[15px] relative overflow-hidden">
-                
-                {/* Background Accents */}
                 <div className="absolute -top-10 -right-10 w-32 h-32 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-colors"></div>
                 <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-accent/5 rounded-full blur-3xl"></div>
 
@@ -76,7 +73,6 @@ export default function Experience(): JSX.Element {
                     </div>
                   </div>
 
-                  {/* FIXED: Removed parentheses from description */}
                   <p className="text-foreground/70 leading-relaxed italic border-l-2 border-primary/30 pl-4 py-1">
                     {experience.description}
                   </p>
@@ -118,8 +114,9 @@ export default function Experience(): JSX.Element {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            {/* CLEAN DIRECT GMAIL LINK */}
             <a
-              href="https://mail.google.com/mail/?view=cm&fs=1&to=audric.suarez.bscs2022@gmail.com"
+              href="https://mail.google.com/mail/?view=cm&fs=1&to=audric.suarez.bscs2022@gmail.com&su=Project%20Inquiry"
               target="_blank"
               rel="noopener noreferrer"
               className="px-8 py-3 bg-primary text-background font-bold rounded-lg hover:shadow-[0_0_20px_rgba(34,197,94,0.4)] transition-all duration-300 w-full sm:w-fit text-center"
