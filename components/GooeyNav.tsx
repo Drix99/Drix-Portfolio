@@ -132,16 +132,25 @@ const GooeyNav: React.FC<GooeyNavProps> = ({
     if (sections.length === 0) return;
 
     let currentIndex = activeIndex;
-    const scrollPosition = window.scrollY + 100;
+    const scrollPosition = window.scrollY + 200;
+    const pageHeight = document.documentElement.scrollHeight;
+    const windowHeight = window.innerHeight;
+    const isNearBottom = scrollPosition >= pageHeight - windowHeight - 100;
 
-    for (let i = 0; i < sections.length; i++) {
-      const section = sections[i];
-      const sectionTop = section.offsetTop;
-      const sectionBottom = sectionTop + section.offsetHeight;
+    // If near bottom and last item is contact, set to contact
+    if (isNearBottom && items[items.length - 1].href === '#contact') {
+      currentIndex = items.length - 1;
+    } else {
+      // Otherwise, find which section we're in
+      for (let i = 0; i < sections.length; i++) {
+        const section = sections[i];
+        const sectionTop = section.offsetTop;
+        const sectionBottom = sectionTop + section.offsetHeight;
 
-      if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
-        currentIndex = i;
-        break;
+        if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+          currentIndex = i;
+          break;
+        }
       }
     }
 
