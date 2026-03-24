@@ -1,21 +1,24 @@
 'use client'
 
-import { ArrowRight, X, Award } from 'lucide-react'
+import { ArrowRight, X, Award, AlertTriangle, Eye } from 'lucide-react'
 import { JSX, useState, useEffect } from 'react'
 import TrueFocus from '../TrueFocus'
 import OrbitImages from '../OrbitImages'
 
 export default function Hero(): JSX.Element {
   const [showCerts, setShowCerts] = useState(false);
+  // Warning pops up immediately on load
+  const [showPortfolioWarning, setShowPortfolioWarning] = useState(true);
 
   useEffect(() => {
-    if (showCerts) {
+    // Locks scrolling if either the Certificates or the Warning popup is active
+    if (showCerts || showPortfolioWarning) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
     }
     return () => { document.body.style.overflow = 'unset'; };
-  }, [showCerts]);
+  }, [showCerts, showPortfolioWarning]);
 
   const techIcons = [
     "/cropped_circle_image.png",
@@ -34,9 +37,9 @@ export default function Hero(): JSX.Element {
 
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center pt-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      
+      {/* --- ORIGINAL HERO CONTENT (UNTOUCHED) --- */}
       <div className="max-w-7xl w-full grid md:grid-cols-2 gap-8 items-center">
-        
-        {/* Left Column - Text */}
         <div className="z-20 space-y-8">
           <div className="space-y-4">
             <p className="text-primary text-sm font-bold tracking-[0.3em] uppercase text-center md:text-left">Welcome to my portfolio</p>
@@ -91,7 +94,6 @@ export default function Hero(): JSX.Element {
           </div>
         </div>
 
-        {/* Right Column - Orbit */}
         <div className="hidden md:flex relative w-full items-center justify-center overflow-visible">
           <OrbitImages
             images={techIcons}
@@ -109,7 +111,7 @@ export default function Hero(): JSX.Element {
         </div>
       </div>
 
-      {/* Certificate Modal */}
+      {/* --- ORIGINAL CERTIFICATE MODAL (UNTOUCHED) --- */}
       {showCerts && (
         <div 
           className="fixed inset-0 z-9999 flex items-center justify-center p-4 transition-all duration-300 animate-in fade-in"
@@ -121,15 +123,12 @@ export default function Hero(): JSX.Element {
         >
           <div 
             className="relative bg-linear-to-br from-background/95 via-background/90 to-background/95 border border-white/10 p-6 md:p-10 rounded-3xl max-w-5xl w-full max-h-[90vh] overflow-y-auto shadow-[0_0_50px_rgba(0,0,0,0.5)] animate-in zoom-in-95 slide-in-from-bottom-10 duration-500
-            /* Hide Scrollbar */
             [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Background Glow Accents */}
             <div className="absolute -top-24 -right-24 w-64 h-64 bg-primary/10 rounded-full blur-[100px] -z-10 pointer-events-none"></div>
             <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-accent/5 rounded-full blur-[100px] -z-10 pointer-events-none"></div>
 
-            {/* Close Button */}
             <button 
               onClick={() => setShowCerts(false)}
               className="sticky top-0 float-right p-2 text-foreground/40 hover:text-primary hover:rotate-90 transition-all duration-300 z-50 bg-white/5 rounded-full backdrop-blur-md border border-white/10"
@@ -177,6 +176,60 @@ export default function Hero(): JSX.Element {
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* --- INITIAL SENSITIVITY & ACCESS WARNING MODAL --- */}
+      {showPortfolioWarning && (
+        <div 
+          className="fixed inset-0 z-[10000] flex items-center justify-center p-4 animate-in fade-in duration-700"
+          style={{ 
+            background: 'rgba(0, 0, 0, 0.98)', 
+            backdropFilter: 'blur(30px)' 
+          }}
+        >
+          <div 
+            className="relative bg-[#080808] border border-white/5 p-8 md:p-12 rounded-[2.5rem] max-w-lg w-full text-center shadow-[0_0_80px_rgba(34,197,94,0.1)] animate-in zoom-in-95 duration-700"
+          >
+            {/* Pulsing Icon */}
+            <div className="mb-8 flex justify-center">
+                <div className="p-5 bg-primary/5 rounded-full border border-primary/20 animate-pulse">
+                    <AlertTriangle className="text-primary" size={48} />
+                </div>
+            </div>
+            
+            <h2 className="text-4xl font-black text-white mb-6 tracking-tighter uppercase italic">
+                System Briefing
+            </h2>
+            
+            <div className="space-y-6 mb-10">
+                <p className="text-foreground/80 leading-relaxed font-medium">
+                    Welcome to the digital portfolio of <span className="text-primary">Audric Suarez</span>.
+                </p>
+
+                {/* SENSITIVITY WARNING SECTION */}
+                <div className="bg-white/5 border border-white/10 p-5 rounded-2xl flex items-start gap-4 text-left group hover:border-primary/40 transition-colors">
+                    <Eye className="text-primary shrink-0 mt-1 group-hover:animate-bounce" size={24} />
+                    <div>
+                        <h4 className="text-white font-bold text-sm uppercase tracking-wider mb-1">Visual Sensitivity Notice</h4>
+                        <p className="text-foreground/50 text-xs leading-relaxed">
+                            This site contains high-contrast elements, neon lighting effects, and subtle animations that may affect viewers with sensitive eyesight or photosensitivity. 
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <button 
+                onClick={() => setShowPortfolioWarning(false)}
+                className="w-full py-5 bg-primary text-background font-black rounded-2xl hover:scale-[1.02] active:scale-95 transition-all shadow-[0_20px_40px_rgba(34,197,94,0.2)] uppercase tracking-widest text-lg"
+            >
+                Initialize Access
+            </button>
+            
+            <p className="mt-8 text-[9px] font-mono text-white/20 uppercase tracking-[0.4em]">
+                Protocol: Secure • Environment: High Contrast
+            </p>
           </div>
         </div>
       )}
