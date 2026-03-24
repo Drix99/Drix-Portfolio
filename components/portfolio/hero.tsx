@@ -7,7 +7,7 @@ import OrbitImages from '../OrbitImages'
 
 export default function Hero(): JSX.Element {
   const [showCerts, setShowCerts] = useState(false);
-  // Warning pops up immediately on load
+  // Warning pops up immediately on load for all viewers
   const [showPortfolioWarning, setShowPortfolioWarning] = useState(true);
 
   useEffect(() => {
@@ -38,8 +38,10 @@ export default function Hero(): JSX.Element {
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center pt-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
       
-      {/* --- ORIGINAL HERO CONTENT (UNTOUCHED) --- */}
+      {/* --- ORIGINAL HERO CONTENT (KEPT 100%) --- */}
       <div className="max-w-7xl w-full grid md:grid-cols-2 gap-8 items-center">
+        
+        {/* Left Column - Text */}
         <div className="z-20 space-y-8">
           <div className="space-y-4">
             <p className="text-primary text-sm font-bold tracking-[0.3em] uppercase text-center md:text-left">Welcome to my portfolio</p>
@@ -94,6 +96,7 @@ export default function Hero(): JSX.Element {
           </div>
         </div>
 
+        {/* Right Column - Orbit */}
         <div className="hidden md:flex relative w-full items-center justify-center overflow-visible">
           <OrbitImages
             images={techIcons}
@@ -111,7 +114,7 @@ export default function Hero(): JSX.Element {
         </div>
       </div>
 
-      {/* --- ORIGINAL CERTIFICATE MODAL (UNTOUCHED) --- */}
+      {/* --- ORIGINAL CERTIFICATE MODAL (KEPT 100%) --- */}
       {showCerts && (
         <div 
           className="fixed inset-0 z-9999 flex items-center justify-center p-4 transition-all duration-300 animate-in fade-in"
@@ -180,41 +183,41 @@ export default function Hero(): JSX.Element {
         </div>
       )}
 
-      {/* --- INITIAL SENSITIVITY & ACCESS WARNING MODAL --- */}
+      {/* --- NEW RESPONSIVE SENSITIVITY & ACCESS WARNING MODAL --- */}
       {showPortfolioWarning && (
         <div 
-          className="fixed inset-0 z-10000 flex items-center justify-center p-4 animate-in fade-in duration-700"
+          className="fixed inset-0 z-[10000] flex items-center justify-center p-4 md:p-6 animate-in fade-in duration-700"
           style={{ 
             background: 'rgba(0, 0, 0, 0.98)', 
             backdropFilter: 'blur(30px)' 
           }}
         >
           <div 
-            className="relative bg-[#080808] border border-white/5 p-8 md:p-12 rounded-[2.5rem] max-w-lg w-full text-center shadow-[0_0_80px_rgba(34,197,94,0.1)] animate-in zoom-in-95 duration-700"
+            className="relative bg-[#080808] border border-white/5 p-6 md:p-12 rounded-[2rem] md:rounded-[2.5rem] max-w-lg w-full text-center shadow-[0_0_80px_rgba(34,197,94,0.1)] animate-in zoom-in-95 duration-700 overflow-y-auto max-h-[90vh]"
           >
-            {/* Pulsing Icon */}
-            <div className="mb-8 flex justify-center">
-                <div className="p-5 bg-primary/5 rounded-full border border-primary/20 animate-pulse">
-                    <AlertTriangle className="text-primary" size={48} />
+            {/* Warning Icon - Pulse effect */}
+            <div className="mb-6 md:mb-8 flex justify-center">
+                <div className="p-4 md:p-5 bg-primary/5 rounded-full border border-primary/20 animate-pulse">
+                    <AlertTriangle className="text-primary w-8 h-8 md:w-12 md:h-12" />
                 </div>
             </div>
             
-            <h2 className="text-4xl font-black text-white mb-6 tracking-tighter uppercase italic">
+            <h2 className="text-2xl md:text-4xl font-black text-white mb-4 md:mb-6 tracking-tighter uppercase italic">
                 System Briefing
             </h2>
             
-            <div className="space-y-6 mb-10">
-                <p className="text-foreground/80 leading-relaxed font-medium">
+            <div className="space-y-4 md:space-y-6 mb-8 md:mb-10 text-center">
+                <p className="text-foreground/80 leading-relaxed font-medium text-sm md:text-lg">
                     Welcome to my portfolio.
                 </p>
 
-                {/* SENSITIVITY WARNING SECTION */}
-                <div className="bg-white/5 border border-white/10 p-5 rounded-2xl flex items-start gap-4 text-left group hover:border-primary/40 transition-colors">
-                    <Eye className="text-primary shrink-0 mt-1 group-hover:animate-bounce" size={24} />
+                {/* SENSITIVITY BOX - Responsive layout */}
+                <div className="bg-white/5 border border-white/10 p-4 md:p-5 rounded-2xl flex items-start gap-3 md:gap-4 text-left group hover:border-primary/40 transition-colors">
+                    <Eye className="text-primary shrink-0 mt-1" size={24} />
                     <div>
-                        <h4 className="text-white font-bold text-sm uppercase tracking-wider mb-1">Visual Sensitivity Notice</h4>
-                        <p className="text-foreground/50 text-xs leading-relaxed">
-                            This site contains high-contrast elements, neon lighting effects, and subtle animations that may affect viewers with sensitive eyesight or photosensitivity. 
+                        <h4 className="text-white font-bold text-[10px] md:text-sm uppercase tracking-wider mb-1">Visual Sensitivity Notice</h4>
+                        <p className="text-foreground/50 text-[11px] md:text-xs leading-relaxed">
+                            This site uses high-contrast colors and animations that may affect photosensitive viewers or those with sensitive eyesight.
                         </p>
                     </div>
                 </div>
@@ -222,13 +225,13 @@ export default function Hero(): JSX.Element {
 
             <button 
                 onClick={() => setShowPortfolioWarning(false)}
-                className="w-full py-5 bg-primary text-background font-black rounded-2xl hover:scale-[1.02] active:scale-95 transition-all shadow-[0_20px_40px_rgba(34,197,94,0.2)] uppercase tracking-widest text-lg"
+                className="w-full py-4 md:py-5 bg-primary text-background font-black rounded-xl md:rounded-2xl hover:scale-[1.02] active:scale-95 transition-all shadow-[0_15px_30px_rgba(34,197,94,0.2)] uppercase tracking-widest text-base md:text-lg"
             >
                 Initialize Access
             </button>
             
-            <p className="mt-8 text-[9px] font-mono text-white/20 uppercase tracking-[0.4em]">
-                Protocol: Secure • Environment: High Contrast
+            <p className="mt-6 md:mt-8 text-[8px] md:text-[10px] font-mono text-white/20 uppercase tracking-[0.3em] md:tracking-[0.4em]">
+                Protocol: Secure • Mobile & Visual Optimized
             </p>
           </div>
         </div>
