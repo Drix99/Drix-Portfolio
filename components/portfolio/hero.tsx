@@ -6,14 +6,12 @@ import TrueFocus from '../TrueFocus'
 import OrbitImages from '../OrbitImages'
 
 export default function Hero(): JSX.Element {
-  const techIcons = [
-    "https://www.citypng.com/public/uploads/preview/hd-dota-2-official-logo-png-701751694788589vbfyq561nz.png", 
-    "https://img.icons8.com/color/512/javascript--v1.png",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZlDp2fH5Gx76m8Cx_y0Y1bREbUMe0Dg0RCQ&s",
-    "https://images.seeklogo.com/logo-png/30/2/github-logo-png_seeklogo-304612.png",
-    "https://e7.pngegg.com/pngimages/140/948/png-clipall-blue-and-yellow-logo-python-logo-programmer-fierce-python-s-cdr-angle-thumbnail.png",
-    "https://img.icons8.com/color/512/typescript.png",
-  ];
+      const techIcons = [
+      "/images.jpeg",
+      "/IMG_20240919_100353_1774257687966.jpg",
+      "/IMG_20241222_140257_1774257686734.jpg",
+      "/IMG_20250714_165554_1774257684859.jpg",
+    ];
 
   return (
     <section id="about" className="min-h-screen flex items-center justify-center pt-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
@@ -34,7 +32,7 @@ export default function Hero(): JSX.Element {
               />
             </div>
             <p className="text-xl text-foreground/80 font-medium leading-tight text-center md:text-left">
-              Soon to be a Full-Stack Web Developer | UI/UX Enthusiast
+              Soon to be a Senior Full-Stack Developer | UI/UX Enthusiast
             </p>
           </div>
 
@@ -47,7 +45,7 @@ export default function Hero(): JSX.Element {
               href="https://github.com/Drix99"
               target="_blank"
               className="group relative px-8 py-3 bg-primary text-background font-bold rounded-lg hover-glow inline-flex items-center gap-2 w-full sm:w-fit justify-center transition-all active:scale-95">
-              <span>View My Work</span>
+              <span>View my Work</span>
               <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
             </a>
             
@@ -75,8 +73,6 @@ export default function Hero(): JSX.Element {
           </div>
         </div>
 
-        {/* Right Column - The Orbit */}
-        {/* FIX 2: HIDE ORBIT ON MOBILE (Added hidden md:flex) */}
         <div className="hidden md:flex relative w-full items-center justify-center overflow-visible">
           <OrbitImages
             images={techIcons}
@@ -85,7 +81,7 @@ export default function Hero(): JSX.Element {
             radiusY={120} 
             rotation={-12} 
             duration={30}
-            itemSize={68} 
+            itemSize={180} 
             responsive={true}
             showPath={true}
             pathColor="rgba(34, 197, 94, 0.4)" 
