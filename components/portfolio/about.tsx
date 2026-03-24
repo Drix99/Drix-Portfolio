@@ -50,7 +50,7 @@ export default function About(): JSX.Element {
           {quickFacts.map((fact, index) => (
             <div
               key={index}
-              className="bg-linear-to-br from-primary/10 to-accent/10 border border-foreground/10 rounded-lg p-6 text-center hover:border-primary/30 hover:bg-primary/15 transition-all duration-300"
+              className="bg-gradient-to-br from-primary/10 to-accent/10 border border-foreground/10 rounded-lg p-6 text-center hover:border-primary/30 hover:bg-primary/15 transition-all duration-300"
             >
               <p className="text-3xl font-bold text-primary mb-2">{fact.value}</p>
               <p className="text-foreground/60 text-sm font-medium">{fact.label}</p>
@@ -59,7 +59,7 @@ export default function About(): JSX.Element {
         </div>
 
         {/* Bio Section */}
-        <div className="bg-linear-to-br from-background/40 to-background/20 border border-foreground/10 rounded-2xl p-8 md:p-12 mb-20 hover:border-primary/20 transition-all duration-300">
+        <div className="bg-gradient-to-br from-background/40 to-background/20 border border-foreground/10 rounded-2xl p-8 md:p-12 mb-20 hover:border-primary/20 transition-all duration-300">
           <h3 className="text-2xl font-bold mb-6 text-primary">My Journey</h3>
           <div className="space-y-4 text-foreground/70 leading-relaxed">
             <p>
@@ -86,7 +86,7 @@ export default function About(): JSX.Element {
               return (
                 <div
                   key={index}
-                  className="bg-linear-to-br from-primary/5 to-accent/5 border border-foreground/10 rounded-xl p-6 hover:border-primary/30 hover:bg-primary/10 group transition-all duration-300"
+                  className="bg-gradient-to-br from-primary/5 to-accent/5 border border-foreground/10 rounded-xl p-6 hover:border-primary/30 hover:bg-primary/10 group transition-all duration-300"
                 >
                   <div className="flex items-center gap-3 mb-4">
                     <div className="p-2 bg-primary/20 rounded-lg group-hover:bg-primary/30 transition-colors">
