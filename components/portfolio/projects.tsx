@@ -49,7 +49,7 @@ export default function Projects(): JSX.Element {
       technologies: ['React', 'Expo', 'Firebase', 'TypeScript','Github'],
       link: 'https://github.com/manwelAC/RiCement',
       github: '#',
-      gradient: 'from-secondary/20 to-primary/20',
+      gradient: 'from-primary/20 to-secondary/20',
     },
   ]
 
