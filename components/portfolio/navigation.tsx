@@ -2,7 +2,7 @@
 
 import { JSX, useState } from 'react'
 import { Menu, X } from 'lucide-react'
-import GooeyNav from '..//GooeyNav'
+import GooeyNav from '../GooeyNav'
 
 export default function Navigation(): JSX.Element {
   const [isOpen, setIsOpen] = useState(false)
@@ -15,7 +15,7 @@ export default function Navigation(): JSX.Element {
   ]
 
   return (
-     <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-background/80 border-b neon-border">
+    <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-background/80 border-b neon-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           
@@ -31,12 +31,12 @@ export default function Navigation(): JSX.Element {
             </a>
           </div>
 
-          {/* FIX: Added 'hidden' so GooeyNav doesn't show or block the icon on mobile */}
+          {/* Desktop Navigation */}
           <div className="hidden md:block">
             <GooeyNav items={navItems} particleCount={10} />
           </div>
 
-          {/* Mobile Menu Button - Ensure it has a high z-index and clear visibility */}
+          {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center">
             <button 
               onClick={() => setIsOpen(!isOpen)} 
@@ -48,9 +48,13 @@ export default function Navigation(): JSX.Element {
           </div>
         </div>
 
-        {/* Mobile Navigation Menu */}
+        {/* Mobile Navigation Menu - Updated with Gradient and Blur */}
         {isOpen && (
-          <div className="md:hidden border-t border-white/5 py-4 bg-[#030712] absolute left-0 right-0 top-20 shadow-2xl">
+          <div className="md:hidden border-t border-white/5 py-4 
+            absolute left-0 right-0 top-20 shadow-2xl
+            bg-linear-to-b from-background/95 via-background/90 to-background/80 
+            backdrop-blur-xl animate-in fade-in slide-in-from-top-2 duration-300"
+          >
             {navItems.map((item) => (
               <a 
                 key={item.label} 

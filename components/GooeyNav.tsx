@@ -221,7 +221,7 @@ const GooeyNav: React.FC<GooeyNavProps> = ({
       </style>
       <div className="relative" ref={containerRef}>
         <nav className="flex relative">
-          <ul ref={navRef} className="flex gap-4 list-none p-0 m-0 relative z-[3]">
+          <ul ref={navRef} className="flex gap-4 list-none p-0 m-0 relative z-3">
             {items.map((item, index) => (
               <li key={index} className={`relative cursor-pointer transition-all duration-300 ${activeIndex === index ? 'active' : ''}`}>
                 <a href={item.href} onClick={e => handleClick(e, index)} className="outline-none py-2 px-4 inline-block text-sm font-medium">
