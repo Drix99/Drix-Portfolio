@@ -95,9 +95,8 @@ export default function Hero(): JSX.Element {
         <div className="hidden md:flex relative w-full items-center justify-center overflow-visible">
           <OrbitImages
             images={techIcons}
-            shape="ellipse"
-            radiusX={380} 
-            radiusY={120} 
+            shape="circle"
+            radius={250}  
             rotation={-12} 
             duration={30}
             itemSize={180} 

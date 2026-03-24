@@ -46,7 +46,7 @@ export default function Projects(): JSX.Element {
       id: 4,
       title: 'RiCement',
       description: 'A construction management tool for tracking projects, materials, and labor.',
-      technologies: ['PHP', 'JavaScript', 'CSS', 'MySQL','Github'],
+      technologies: ['React', 'Expo', 'Firebase', 'TypeScript','Github'],
       link: 'https://github.com/manwelAC/RiCement',
       github: '#',
       gradient: 'from-secondary/20 to-primary/20',

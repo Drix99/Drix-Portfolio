@@ -31,6 +31,7 @@ const GooeyNav: React.FC<GooeyNavProps> = ({
   const filterRef = useRef<HTMLSpanElement>(null);
   const textRef = useRef<HTMLSpanElement>(null);
   const [activeIndex, setActiveIndex] = useState<number>(initialActiveIndex);
+  const isUserInteractingRef = useRef(false);
 
   const noise = (n = 1) => n / 2 - Math.random() * n;
   const getXY = (distance: number, pointIndex: number, totalPoints: number): [number, number] => {
@@ -102,6 +103,7 @@ const GooeyNav: React.FC<GooeyNavProps> = ({
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, index: number) => {
     const liEl = e.currentTarget.parentElement;
     if (!liEl || activeIndex === index) return;
+    isUserInteractingRef.current = true;
     setActiveIndex(index);
     updateEffectPosition(liEl);
     if (filterRef.current) {
@@ -113,6 +115,61 @@ const GooeyNav: React.FC<GooeyNavProps> = ({
       textRef.current.classList.remove('active');
       void textRef.current.offsetWidth;
       textRef.current.classList.add('active');
+    }
+    setTimeout(() => {
+      isUserInteractingRef.current = false;
+    }, 1000);
+  };
+
+  const handleScroll = () => {
+    if (isUserInteractingRef.current) return;
+
+    const sections = items.map(item => {
+      const id = item.href.replace('#', '');
+      return document.getElementById(id);
+    }).filter(Boolean) as HTMLElement[];
+
+    if (sections.length === 0) return;
+
+    let currentIndex = activeIndex;
+    const scrollPosition = window.scrollY + 200;
+    const pageHeight = document.documentElement.scrollHeight;
+    const windowHeight = window.innerHeight;
+    const isNearBottom = scrollPosition >= pageHeight - windowHeight - 100;
+
+    // If near bottom and last item is contact, set to contact
+    if (isNearBottom && items[items.length - 1].href === '#contact') {
+      currentIndex = items.length - 1;
+    } else {
+      // Otherwise, find which section we're in
+      for (let i = 0; i < sections.length; i++) {
+        const section = sections[i];
+        const sectionTop = section.offsetTop;
+        const sectionBottom = sectionTop + section.offsetHeight;
+
+        if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+          currentIndex = i;
+          break;
+        }
+      }
+    }
+
+    if (currentIndex !== activeIndex) {
+      setActiveIndex(currentIndex);
+      const liEl = navRef.current?.querySelectorAll('li')[currentIndex] as HTMLElement;
+      if (liEl) {
+        updateEffectPosition(liEl);
+        if (filterRef.current) {
+          const particles = filterRef.current.querySelectorAll('.particle');
+          particles.forEach(p => filterRef.current!.removeChild(p));
+          makeParticles(filterRef.current);
+        }
+        if (textRef.current) {
+          textRef.current.classList.remove('active');
+          void textRef.current.offsetWidth;
+          textRef.current.classList.add('active');
+        }
+      }
     }
   };
 
@@ -131,6 +188,10 @@ const GooeyNav: React.FC<GooeyNavProps> = ({
     return () => resizeObserver.disconnect();
   }, [activeIndex]);
 
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [activeIndex, items]);
   return (
     <>
       <style>
