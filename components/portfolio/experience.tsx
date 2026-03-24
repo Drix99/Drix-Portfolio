@@ -114,7 +114,6 @@ export default function Experience(): JSX.Element {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            {/* CLEAN DIRECT GMAIL LINK */}
             <a
               href="https://mail.google.com/mail/?view=cm&fs=1&to=audric.suarez.bscs2022@gmail.com&su=Project%20Inquiry"
               target="_blank"
