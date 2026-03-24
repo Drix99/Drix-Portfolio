@@ -84,7 +84,7 @@ export default function Hero(): JSX.Element {
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
                 </span>
                 <span className="text-[10px] font-mono text-foreground/50 uppercase tracking-widest">
-                  Status: Online
+                  Status: Still Breathin'
                 </span>
               </div>
             </div>
