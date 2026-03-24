@@ -186,14 +186,14 @@ export default function Hero(): JSX.Element {
       {/* --- NEW RESPONSIVE SENSITIVITY & ACCESS WARNING MODAL --- */}
       {showPortfolioWarning && (
         <div 
-          className="fixed inset-0 z-[10000] flex items-center justify-center p-4 md:p-6 animate-in fade-in duration-700"
+          className="fixed inset-0 z-10000 flex items-center justify-center p-4 md:p-6 animate-in fade-in duration-700"
           style={{ 
             background: 'rgba(0, 0, 0, 0.98)', 
             backdropFilter: 'blur(30px)' 
           }}
         >
           <div 
-            className="relative bg-[#080808] border border-white/5 p-6 md:p-12 rounded-[2rem] md:rounded-[2.5rem] max-w-lg w-full text-center shadow-[0_0_80px_rgba(34,197,94,0.1)] animate-in zoom-in-95 duration-700 overflow-y-auto max-h-[90vh]"
+            className="relative bg-[#080808] border border-white/5 p-6 md:p-12 rounded-4xl md:rounded-[2.5rem] max-w-lg w-full text-center shadow-[0_0_80px_rgba(34,197,94,0.1)] animate-in zoom-in-95 duration-700 overflow-y-auto max-h-[90vh]"
           >
             {/* Warning Icon - Pulse effect */}
             <div className="mb-6 md:mb-8 flex justify-center">
