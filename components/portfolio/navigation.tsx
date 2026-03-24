@@ -22,7 +22,7 @@ export default function Navigation(): JSX.Element {
           {/* Logo */}
           <div className="shrink-0">
             <a 
-              href="https://www.youtube.com/shorts/GQNW1IlvhcY" 
+              href="https://music.youtube.com/watch?v=6VVqFnleUVc" 
               target="_blank" 
               rel="noopener noreferrer"
               className="block transition-transform duration-300 hover:scale-105 active:scale-95 cursor-pointer"
