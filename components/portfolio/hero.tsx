@@ -51,7 +51,7 @@ export default function Hero(): JSX.Element {
               />
             </div>
             <p className="text-xl text-foreground/80 font-medium leading-tight text-center md:text-left">
-               Future Full-Stack Developer | UI/UX Enthusiast
+               Humble Full-Stack Developer | UI/UX Enthusiast
             </p>
           </div>
 
