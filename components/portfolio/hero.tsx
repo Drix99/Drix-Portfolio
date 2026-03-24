@@ -183,7 +183,7 @@ export default function Hero(): JSX.Element {
       {/* --- INITIAL SENSITIVITY & ACCESS WARNING MODAL --- */}
       {showPortfolioWarning && (
         <div 
-          className="fixed inset-0 z-[10000] flex items-center justify-center p-4 animate-in fade-in duration-700"
+          className="fixed inset-0 z-10000 flex items-center justify-center p-4 animate-in fade-in duration-700"
           style={{ 
             background: 'rgba(0, 0, 0, 0.98)', 
             backdropFilter: 'blur(30px)' 
@@ -205,7 +205,7 @@ export default function Hero(): JSX.Element {
             
             <div className="space-y-6 mb-10">
                 <p className="text-foreground/80 leading-relaxed font-medium">
-                    Welcome to the digital portfolio of <span className="text-primary">Audric Suarez</span>.
+                    Welcome to my portfolio.
                 </p>
 
                 {/* SENSITIVITY WARNING SECTION */}
