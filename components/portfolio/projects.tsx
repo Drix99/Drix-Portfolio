@@ -21,7 +21,7 @@ export default function Projects(): JSX.Element {
       description: 'A mobile app for cyclists to track rides, AI Chats, and connect with a community of riders.',
       technologies: ['Flutter', 'Firebase', 'Figma'],
         link: 'https://github.com/1Kuuu/velo',
-        github: '#',
+        github: 'https://github.com/1Kuuu/velo',
       gradient: 'from-primary/20 to-accent/20',
     },
     {
@@ -30,7 +30,7 @@ export default function Projects(): JSX.Element {
       description: 'We Developed a Document Tracking System for the National Food Authority to streamline inter-departmental workflows and improve record management efficiency.',
       technologies: ['Vue.js', 'MySQL', 'Laravel','Github', 'Tailwind CSS'],
       link: 'https://github.com/andrei5713/DTS',
-      github: '#',
+      github: 'https://github.com/andrei5713/DTS',
       gradient: 'from-accent/20 to-secondary/20',
     },
     {
@@ -39,7 +39,7 @@ export default function Projects(): JSX.Element {
       description: 'A web-based tool for monitoring and managing network devices, providing real-time insights and alerts.',
       technologies: ['PHP', 'JavaScript', 'CSS', 'MySQL','Github'],
       link: 'https://github.com/andrei5713/NMS',
-      github: '#',
+      github: 'https://github.com/andrei5713/NMS',
       gradient: 'from-secondary/20 to-primary/20',
     },
     {
@@ -48,7 +48,7 @@ export default function Projects(): JSX.Element {
       description: 'A construction management tool for tracking projects, materials, and labor.',
       technologies: ['React', 'Expo', 'Firebase', 'TypeScript','Github'],
       link: 'https://github.com/manwelAC/RiCement',
-      github: '#',
+      github: 'https://github.com/manwelAC/RiCement',
       gradient: 'from-primary/20 to-secondary/20',
     },
   ]
