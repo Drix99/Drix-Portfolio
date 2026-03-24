@@ -13,7 +13,7 @@ export default function About(): JSX.Element {
     {
       category: 'Backend',
       icon: Zap,
-      technologies: ['Node.js', 'PHP', 'Laravel', 'Firebase', 'MySQL']
+      technologies: ['Python', 'PHP', 'Laravel', 'Firebase', 'MySQL']
     },
     {
       category: 'Tools & Platforms',
