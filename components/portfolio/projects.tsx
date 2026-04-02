@@ -23,7 +23,7 @@ export default function Projects(): JSX.Element {
     {
       id: 2,
       title: 'Document Tracking System',
-      description: 'Developed a Document Tracking System for the National Food Authority to streamline inter-departmental workflows and improve record management efficiency.',
+      description: 'A Document Tracking System for the National Food Authority, enhancing workflow efficiency and improving document management across departments.',
       technologies: ['Vue.js', 'MySQL', 'Laravel', 'Tailwind CSS'],
       gradient: 'from-accent/20 to-secondary/20',
     },
