@@ -74,15 +74,6 @@ export default function Hero(): JSX.Element {
             </button>
             
             <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-fit">
-              <a 
-                href="https://www.linkedin.com/in/audric-suarez-938403375/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-8 py-3 border-2 border-accent text-accent font-semibold rounded-lg hover-glow-accent transition-all duration-300 w-full sm:w-fit text-center active:scale-95"
-              >
-                Get in Touch
-              </a>
-
               <div className="hidden md:flex items-center gap-2 px-3 py-1 bg-white/5 rounded-full border border-white/10 shrink-0">
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
