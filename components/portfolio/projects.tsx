@@ -1,53 +1,48 @@
 'use client'
 
-import { Lock, ShieldCheck } from 'lucide-react'
-import { JSX, useRef, useState } from 'react'
+import { JSX, useRef, useState, useEffect } from 'react'
 
 interface Project {
   id: number
   title: string
   description: string
   technologies: string[]
-  gradient: string
   year: string
 }
 
 export default function Projects(): JSX.Element {
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const [scrollProgress, setScrollProgress] = useState(0)
+  const [dotPosition, setDotPosition] = useState(0)
 
   const projects: Project[] = [
     {
       id: 1,
       year: '2026',
-      title: 'Velora',
-      description: 'A mobile app for cyclists to track rides, AI Chats, and connect with a community of riders.',
+      title: 'VELORA',
+      description: 'A mobile app for cyclists to track rides, AI Chats, and connect with a community of riders. Built with Flutter and Firebase for seamless cross-platform performance.',
       technologies: ['Flutter', 'Firebase', 'Figma'],
-      gradient: 'from-primary/20 to-accent/20',
     },
     {
       id: 2,
       year: '2025',
-      title: 'Document Tracking System',
-      description: 'A Document Tracking System for the National Food Authority, enhancing workflow efficiency and improving document management across departments.',
+      title: 'DOCUMENT TRACKING SYSTEM',
+      description: 'A comprehensive Document Tracking System for the National Food Authority, enhancing workflow efficiency and improving document management across departments.',
       technologies: ['Vue.js', 'MySQL', 'Laravel', 'Tailwind CSS'],
-      gradient: 'from-accent/20 to-secondary/20',
     },
     {
       id: 3,
       year: '2024',
-      title: 'Network Management System',
-      description: 'A web-based tool for monitoring and managing network devices, providing real-time insights and alerts.',
+      title: 'NETWORK MANAGEMENT',
+      description: 'A web-based tool for monitoring and managing network devices, providing real-time insights, alerts, and comprehensive network analytics.',
       technologies: ['PHP', 'JavaScript', 'CSS', 'MySQL'],
-      gradient: 'from-secondary/20 to-primary/20',
     },
     {
       id: 4,
       year: '2024',
-      title: 'RiCement',
-      description: 'A construction management tool for tracking projects, materials, and labor.',
+      title: 'RICIENCY',
+      description: 'A construction management tool for tracking projects, materials, and labor. Streamlines project workflows with real-time collaboration features.',
       technologies: ['React', 'Expo', 'Firebase', 'TypeScript'],
-      gradient: 'from-primary/20 to-secondary/20',
     },
   ]
 
@@ -56,98 +51,102 @@ export default function Projects(): JSX.Element {
       const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current
       const progress = scrollWidth > clientWidth ? (scrollLeft / (scrollWidth - clientWidth)) * 100 : 0
       setScrollProgress(progress)
+      
+      // Calculate dot position (0-3 for 4 projects)
+      const dotPos = (progress / 100) * 3
+      setDotPosition(dotPos)
     }
   }
 
   return (
-    <section id="projects" className="py-20 px-4 sm:px-6 lg:px-8 relative">
-      <div className="max-w-7xl mx-auto">
-        <h2 className="text-4xl font-bold neon-glow-secondary mb-4 text-center">Projects</h2>
-        
-        {/* Privacy & Confidentiality Notice */}
-        <div className="max-w-2xl mx-auto mb-12 p-4 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm">
-          <div className="flex items-start gap-3">
-            <ShieldCheck className="text-primary shrink-0 mt-1" size={20} />
-            <p className="text-sm text-foreground/60 leading-relaxed">
-              <span className="text-primary font-bold">Privacy Note:</span> Source code and live links for these projects are restricted. Most were developed for government agencies or private clients and contain proprietary logic that cannot be made public.
-            </p>
-          </div>
+    <section id="projects" className="py-32 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+      <div className="max-w-full mx-auto">
+        {/* Section Header */}
+        <div className="text-center mb-20">
+          <p className="text-sm font-mono uppercase tracking-widest text-foreground/50 mb-4">Journey</p>
+          <h2 className="text-5xl lg:text-6xl font-black tracking-tighter mb-4">
+            <span className="block">EXPERIENCE</span>
+            <span className="block text-foreground/60">&</span>
+            <span className="block">GROWTH</span>
+          </h2>
         </div>
 
         {/* Horizontal Timeline Container */}
-        <div className="flex gap-8 items-start relative">
-          {/* Timeline Indicator - Left Side */}
-          <div className="hidden lg:flex flex-col items-center gap-8 pt-4">
-            <div className="text-xs font-mono uppercase tracking-widest text-foreground/40 whitespace-nowrap">Journey</div>
-            <div className="h-64 flex flex-col items-center gap-8 relative">
-              {/* Vertical line connecting dots */}
-              <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary/60 to-primary/20"></div>
+        <div className="flex gap-12 items-start relative">
+          {/* Timeline Indicator - Left Side (Hidden on mobile) */}
+          <div className="hidden lg:flex flex-col items-center pt-8 min-w-max">
+            <div className="relative h-96">
+              {/* Vertical line */}
+              <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-foreground/40 via-foreground/20 to-transparent"></div>
               
-              {/* Animated dot - follows scroll */}
-              <div className="relative z-20">
-                <div className="w-4 h-4 bg-primary rounded-full shadow-[0_0_20px_rgba(var(--primary-rgb),0.6)]"></div>
+              {/* Filled dot at scroll position */}
+              <div 
+                className="absolute left-1/2 -translate-x-1/2 transition-all duration-300 ease-out"
+                style={{ top: `${(dotPosition / 3) * 100}%` }}
+              >
+                <div className="w-3 h-3 bg-foreground rounded-full shadow-lg"></div>
               </div>
-              <div className="relative z-10">
-                <div className="w-2.5 h-2.5 border-2 border-primary/40 rounded-full"></div>
-              </div>
+              
+              {/* Empty dots for each project */}
+              {[0, 1, 2, 3].map((i) => (
+                <div
+                  key={i}
+                  className="absolute left-1/2 -translate-x-1/2 transition-all duration-300"
+                  style={{ top: `${(i / 3) * 100}%` }}
+                >
+                  <div className="w-2 h-2 border border-foreground/40 rounded-full"></div>
+                </div>
+              ))}
             </div>
           </div>
 
           {/* Scrollable Projects Container */}
-          <div className="flex-1">
+          <div className="flex-1 overflow-hidden">
             <div
               ref={scrollContainerRef}
               onScroll={handleScroll}
-              className="flex gap-6 overflow-x-auto pb-4 scroll-smooth"
+              className="flex gap-8 overflow-x-auto pb-8 scroll-smooth snap-x snap-mandatory"
               style={{
                 scrollBehavior: 'smooth',
                 WebkitOverflowScrolling: 'touch',
               }}
             >
-              {projects.map((project, idx) => (
+              {projects.map((project) => (
                 <div
                   key={project.id}
-                  className="flex-shrink-0 w-96 h-fit"
+                  className="flex-shrink-0 w-full sm:w-96 lg:w-96 snap-start"
                 >
-                  {/* Year Badge */}
-                  <div className="mb-3 inline-block px-3 py-1 bg-primary/20 text-primary text-xs font-bold rounded-lg border border-primary/30">
-                    {project.year}
-                  </div>
-
                   {/* Project Card */}
-                  <div
-                    className={`bg-linear-to-br ${project.gradient} border border-foreground/10 rounded-xl p-6 hover-glow group overflow-hidden relative h-full backdrop-blur-sm`}
-                  >
-                    <div className="absolute inset-0 bg-linear-to-br from-primary/0 to-accent/0 group-hover:from-primary/10 group-hover:to-accent/10 transition-all duration-300"></div>
+                  <div className="bg-white/5 border border-white/10 rounded-2xl p-8 lg:p-10 hover:bg-white/10 transition-colors duration-300 h-full flex flex-col group backdrop-blur-sm">
+                    {/* Year Badge - Top Right */}
+                    <div className="flex items-start justify-between mb-6">
+                      <div className="flex-1"></div>
+                      <div className="px-4 py-2 bg-foreground text-background font-black text-lg rounded-lg">
+                        {project.year}
+                      </div>
+                    </div>
 
-                    <div className="relative z-10 flex flex-col h-full">
-                      <div className="space-y-4 grow">
-                        <h3 className="text-2xl font-bold text-primary group-hover:neon-glow-primary transition-all leading-tight">
+                    {/* Content */}
+                    <div className="flex flex-col flex-1 gap-6">
+                      <div>
+                        <h3 className="text-2xl lg:text-3xl font-black tracking-tighter leading-tight mb-4 group-hover:text-foreground/80 transition-colors">
                           {project.title}
                         </h3>
-                        <p className="text-foreground/70 text-sm leading-relaxed">
+                        <p className="text-foreground/70 text-sm lg:text-base leading-relaxed">
                           {project.description}
                         </p>
-
-                        <div className="flex flex-wrap gap-2 pt-2">
-                          {project.technologies.map((tech) => (
-                            <span
-                              key={tech}
-                              className="px-3 py-1 text-xs font-semibold bg-primary/20 text-primary rounded-full border border-primary/20"
-                            >
-                              {tech}
-                            </span>
-                          ))}
-                        </div>
                       </div>
 
-                      {/* Footer */}
-                      <div className="mt-8 pt-4 border-t border-white/10 flex items-center justify-between text-foreground/30">
-                        <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest">
-                          <Lock size={12} />
-                          <span>Private Access</span>
-                        </div>
-                        <span className="text-[10px] font-bold px-2 py-0.5 rounded border border-white/10">NDA</span>
+                      {/* Technologies */}
+                      <div className="flex flex-wrap gap-2 pt-4 mt-auto">
+                        {project.technologies.map((tech) => (
+                          <span
+                            key={tech}
+                            className="px-3 py-1 text-xs font-semibold bg-foreground/10 text-foreground/80 rounded-full border border-foreground/20 hover:bg-foreground/20 transition-colors"
+                          >
+                            {tech}
+                          </span>
+                        ))}
                       </div>
                     </div>
                   </div>
@@ -155,11 +154,11 @@ export default function Projects(): JSX.Element {
               ))}
             </div>
 
-            {/* Scroll Indicator */}
-            <div className="mt-6 px-4">
-              <div className="h-1 bg-white/10 rounded-full overflow-hidden">
+            {/* Scroll Progress Bar */}
+            <div className="mt-8 px-0">
+              <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-gradient-to-r from-primary to-accent rounded-full transition-all duration-300"
+                  className="h-full bg-foreground rounded-full transition-all duration-300"
                   style={{ width: `${scrollProgress}%` }}
                 ></div>
               </div>
