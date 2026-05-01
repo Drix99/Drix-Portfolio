@@ -24,13 +24,8 @@ export default function Navbar() {
     return () => observer.disconnect()
   }, [])
 
-  const downloadResume = () => {
-    const link = document.createElement('a')
-    link.href = '/audric-suarez-resume.pdf'
-    link.download = 'Audric-Suarez-Resume.pdf'
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
+  const openResume = () => {
+    window.open('/audric-suarez-resume.pdf', '_blank')
   }
 
   const drawerVariants: Variants = {
@@ -57,7 +52,7 @@ export default function Navbar() {
                 {link.name}
               </motion.a>
             ))}
-            <motion.button onClick={downloadResume} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="ml-2 bg-primary text-black px-4 py-2 rounded-xl text-xs font-black uppercase flex items-center gap-2">
+            <motion.button onClick={openResume} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="ml-2 bg-primary text-black px-4 py-2 rounded-xl text-xs font-black uppercase flex items-center gap-2">
               <Download size={14} /> Resume
             </motion.button>
           </div>
@@ -109,7 +104,7 @@ export default function Navbar() {
                 ))}
 
                 <motion.button 
-                  onClick={downloadResume}
+                  onClick={openResume}
                   initial={{ x: 20, opacity: 0 }}
                   animate={{ x: 0, opacity: 1, transition: { delay: navLinks.length * 0.1 } }}
                   whileTap={{ scale: 0.95 }}
