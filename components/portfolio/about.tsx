@@ -63,7 +63,7 @@ export default function About(): JSX.Element {
           <h3 className="text-2xl font-bold mb-6 text-primary">My Journey</h3>
           <div className="space-y-4 text-foreground/70 leading-relaxed">
             <p>
-              I’m a graduating Computer Science student and an aspiring Full-Stack Developer driven by the challenge of building seamless digital experiences. 
+              I’m a Computer Science Graduate and an aspiring Full-Stack Developer driven by the challenge of building seamless digital experiences. 
               Over the last 2+ years, I’ve moved beyond the basics to engineer full-scale applications that bridge the gap between robust backends and intuitive frontends.
             </p>
             <p>
