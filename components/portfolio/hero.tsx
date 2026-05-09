@@ -222,7 +222,7 @@ export default function Hero({ showPortfolioWarning, setShowPortfolioWarning }: 
                     <Eye className="text-primary shrink-0 mt-1" size={24} />
                     <div>
                         <h4 className="text-white font-bold text-sm uppercase tracking-wider mb-1">Visual Sensitivity</h4>
-                        <p className="text-white/40 text-xs leading-relaxed">Site uses high-contrast neon effects and motion.</p>
+                        <p className="text-white/40 text-xs leading-relaxed">My portfolio uses high-contrast neon effects. If you're not comfortable with neon visuals, try lowering your screen brightness.</p>
                     </div>
                 </div>
             </div>
