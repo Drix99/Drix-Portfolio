@@ -11,6 +11,7 @@ import Navigation from '@/components/portfolio/navigation'
 
 export default function Home() {
   const [isLoaded, setIsLoaded] = useState(false)
+  const [showPortfolioWarning, setShowPortfolioWarning] = useState(true)
 
   useEffect(() => {
     setIsLoaded(true)
@@ -34,13 +35,19 @@ export default function Home() {
       </div>
 
       <div className="relative z-10">
-        <Navigation />
+        <AnimatePresence>
+          {!showPortfolioWarning && (
+            <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.3 }}>
+              <Navigation />
+            </motion.div>
+          )}
+        </AnimatePresence>
         
         <AnimatePresence mode="wait">
           {isLoaded && (
             <motion.div className="flex flex-col" initial="hidden" animate="visible">
               <motion.section id="home" className="scroll-mt-24" variants={sectionVariants} whileInView="visible" viewport={{ once: true, margin: "-100px" }}>
-                <Hero />
+                <Hero showPortfolioWarning={showPortfolioWarning} setShowPortfolioWarning={setShowPortfolioWarning} />
               </motion.section>
 
               <motion.section id="about" className="scroll-mt-24" variants={sectionVariants} whileInView="visible" viewport={{ once: true, margin: "-100px" }}>

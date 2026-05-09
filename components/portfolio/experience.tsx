@@ -1,6 +1,6 @@
 'use client'
 
-import { Briefcase, Calendar, ArrowUp } from 'lucide-react'
+import { ArrowUp, Briefcase, Calendar } from 'lucide-react'
 import { JSX, useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import BorderGlow from '../BorderGlow';
@@ -122,20 +122,22 @@ export default function Experience(): JSX.Element {
 
         <Contact />
 
-        {/* --- BACK TO TOP BUTTON --- */}
         <AnimatePresence>
           {showScrollTop && (
-            <motion.button
-              initial={{ opacity: 0, scale: 0.5, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.5, y: 20 }}
-              whileHover={{ y: -4 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={scrollToTop}
-              className="fixed bottom-10 md:bottom-8 right-6 md:right-8 z-100 w-12 h-12 md:w-14 md:h-14 flex items-center justify-center bg-black/60 backdrop-blur-xl border border-primary/30 text-primary rounded-xl shadow-[0_0_20px_rgba(34,197,94,0.3)]"
-            >
-              <ArrowUp size={24} />
-            </motion.button>
+            <motion.div className="mt-8 flex justify-center w-full">
+              <motion.button
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={scrollToTop}
+                className="inline-flex items-center gap-2 px-2 py-1 text-xs font-semibold text-primary uppercase tracking-[0.35em] hover:text-primary/80 transition-all"
+              >
+                <span>Back to top</span>
+                <ArrowUp size={14} />
+              </motion.button>
+            </motion.div>
           )}
         </AnimatePresence>
 

@@ -1,15 +1,20 @@
 'use client'
 
-import { ArrowRight, X, Award, AlertTriangle, Eye, ZoomIn } from 'lucide-react'
-import { JSX, useState, useEffect } from 'react'
+import { ArrowRight, X, Award, AlertTriangle, Eye, ZoomIn, Loader2 } from 'lucide-react'
+import { Dispatch, JSX, SetStateAction, useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import TrueFocus from '../TrueFocus'
 import OrbitImages from '../OrbitImages'
 
-export default function Hero(): JSX.Element {
+interface HeroProps {
+  showPortfolioWarning: boolean
+  setShowPortfolioWarning: Dispatch<SetStateAction<boolean>>
+}
+
+export default function Hero({ showPortfolioWarning, setShowPortfolioWarning }: HeroProps): JSX.Element {
   const [showCerts, setShowCerts] = useState(false);
-  const [showPortfolioWarning, setShowPortfolioWarning] = useState(true);
   const [selectedCert, setSelectedCert] = useState<string | null>(null);
+  const [isAccessLoading, setIsAccessLoading] = useState(false);
 
   useEffect(() => {
     if (showCerts || showPortfolioWarning || selectedCert) {
@@ -179,9 +184,22 @@ export default function Hero(): JSX.Element {
       </AnimatePresence>
 
       {/* --- SYSTEM BRIEFING MODAL --- */}
-      {showPortfolioWarning && (
-        <div className="fixed inset-0 z-10000 flex items-center justify-center p-4 bg-black/98 backdrop-blur-3xl">
-          <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="bg-[#080808] border border-white/5 p-10 rounded-[3rem] max-w-lg w-full text-center shadow-2xl">
+      <AnimatePresence>
+        {showPortfolioWarning && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-10000 flex items-center justify-center p-4 bg-black/98 backdrop-blur-3xl"
+          >
+            <motion.div
+              initial={{ y: 24, opacity: 0, scale: 0.98 }}
+              animate={{ y: 0, opacity: 1, scale: 1 }}
+              exit={{ y: 24, opacity: 0, scale: 0.98 }}
+              transition={{ duration: 0.35, ease: 'easeOut' }}
+              className="bg-[#080808] border border-white/5 p-10 rounded-[3rem] max-w-lg w-full text-center shadow-2xl"
+            >
             <div className="mb-8 flex justify-center">
                 <div className="p-5 bg-primary/5 rounded-full border border-primary/20 animate-pulse">
                     <AlertTriangle className="text-primary" size={48} />
@@ -197,10 +215,30 @@ export default function Hero(): JSX.Element {
                     </div>
                 </div>
             </div>
-            <button onClick={() => setShowPortfolioWarning(false)} className="w-full py-5 bg-primary text-black font-black rounded-2xl hover:shadow-[0_0_30px_rgba(34,197,94,0.3)] transition-all uppercase tracking-widest">Initialize Access</button>
+            <button
+              onClick={() => {
+                setIsAccessLoading(true)
+                window.setTimeout(() => {
+                  setShowPortfolioWarning(false)
+                  setIsAccessLoading(false)
+                }, 1300)
+              }}
+              disabled={isAccessLoading}
+              className="w-full py-5 bg-primary text-black font-black rounded-2xl hover:shadow-[0_0_30px_rgba(34,197,94,0.3)] transition-all uppercase tracking-widest disabled:cursor-not-allowed disabled:bg-primary/70"
+            >
+              <div className="inline-flex items-center justify-center gap-3">
+                {isAccessLoading ? (
+                  <Loader2 className="animate-spin" size={20} />
+                ) : (
+                  <span>Initialize Access</span>
+                )}
+                {isAccessLoading ? <span>Loading...</span> : null}
+              </div>
+            </button>
+            </motion.div>
           </motion.div>
-        </div>
-      )}
+        )}
+      </AnimatePresence>
     </section>
   )
 }

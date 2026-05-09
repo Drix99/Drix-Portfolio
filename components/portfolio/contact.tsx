@@ -78,6 +78,7 @@ export default function Contact(): JSX.Element {
         <p className="mt-6 text-[10px] font-mono text-foreground/30 uppercase tracking-[0.3em]">
             Average Response Time: &lt; 24 Hours
           </p>
+
       </div>
 
       <AnimatePresence>
