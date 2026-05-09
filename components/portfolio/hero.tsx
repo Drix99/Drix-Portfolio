@@ -17,16 +17,27 @@ export default function Hero({ showPortfolioWarning, setShowPortfolioWarning }: 
   const [isAccessLoading, setIsAccessLoading] = useState(false);
 
   useEffect(() => {
-    if (showCerts || showPortfolioWarning || selectedCert) {
+    const shouldLock = showCerts || showPortfolioWarning || selectedCert;
+    const htmlStyle = document.documentElement.style;
+    const bodyStyle = document.body.style;
+
+    if (shouldLock) {
       document.body.setAttribute('data-modal-open', 'true');
-      document.body.style.overflow = 'hidden';
+      htmlStyle.overflow = 'hidden';
+      bodyStyle.overflow = 'hidden';
+      bodyStyle.height = '100%';
     } else {
       document.body.removeAttribute('data-modal-open');
-      document.body.style.overflow = 'unset';
+      htmlStyle.overflow = '';
+      bodyStyle.overflow = '';
+      bodyStyle.height = '';
     }
-    return () => { 
+
+    return () => {
       document.body.removeAttribute('data-modal-open');
-      document.body.style.overflow = 'unset';
+      htmlStyle.overflow = '';
+      bodyStyle.overflow = '';
+      bodyStyle.height = '';
     };
   }, [showCerts, showPortfolioWarning, selectedCert]);
 
