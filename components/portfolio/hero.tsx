@@ -59,12 +59,12 @@ export default function Hero(): JSX.Element {
               />
             </div>
             <p className="text-xl text-foreground/80 font-medium leading-tight text-center md:text-left">
-               Humble Full-Stack Developer | UI/UX Enthusiast
+               Junior Full-Stack Developer | UI/UX Enthusiast
             </p>
           </div>
 
           <p className="text-foreground/60 text-lg max-w-md leading-relaxed text-center md:text-left mx-auto md:mx-0">
-            Trying to debug life and Dota at the same time. <span className="text-accent italic font-medium">Spoiler: both crash often.</span>
+            “You should enjoy the little detours. Because that’s where you’ll find the things more important than what you want.” <span className="text-accent italic font-medium">— Ging Freecss (Hunter x Hunter)</span>
           </p>
 
           <div className="flex flex-col sm:flex-row items-center gap-6">

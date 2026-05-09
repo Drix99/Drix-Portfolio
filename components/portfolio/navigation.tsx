@@ -24,6 +24,15 @@ export default function Navbar() {
     return () => observer.disconnect()
   }, [])
 
+   const downloadResume = () => {
+    const link = document.createElement('a')
+    link.href = '/Audric-Suarez_Resume.pdf'
+    link.download = 'Audric-Suarez_Resume.pdf'
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
+
   const drawerVariants: Variants = {
     closed: { x: '110%', transition: { type: 'spring', damping: 30, stiffness: 300 } },
     opened: { x: 0, transition: { type: 'spring', damping: 25, stiffness: 200 } }
@@ -48,14 +57,14 @@ export default function Navbar() {
                 {link.name}
               </motion.a>
             ))}
-            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="ml-2 bg-primary text-black px-4 py-2 rounded-xl text-xs font-black uppercase flex items-center gap-2">
+            <motion.button onClick={downloadResume} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="ml-2 bg-primary text-black px-4 py-2 rounded-xl text-xs font-black uppercase flex items-center gap-2">
               <Download size={14} /> Resume
             </motion.button>
           </div>
 
           {/* MOBILE HAMBURGER */}
           <div className="md:hidden">
-            <motion.button
+            <motion.button 
               whileTap={{ scale: 0.9 }}
               onClick={() => setMobileMenuOpen(true)}
               className="w-14 h-14 flex flex-col gap-1.5 items-end justify-center bg-white/5 border border-white/10 rounded-2xl backdrop-blur-xl shadow-2xl pr-4"
@@ -100,6 +109,7 @@ export default function Navbar() {
                 ))}
 
                 <motion.button 
+                  onClick={downloadResume}
                   initial={{ x: 20, opacity: 0 }}
                   animate={{ x: 0, opacity: 1, transition: { delay: navLinks.length * 0.1 } }}
                   whileTap={{ scale: 0.95 }}
