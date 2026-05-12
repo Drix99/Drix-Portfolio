@@ -46,10 +46,14 @@ const BorderGlow: React.FC<BorderGlowProps> = ({
     >
       {/* Dynamic Glow Layer */}
       <div
-        className="absolute inset-0 z-0 pointer-events-none transition-opacity duration-500"
+        className="absolute inset-0 z-0 pointer-events-none transition-all duration-500"
         style={{
-          opacity: isHovered ? glowIntensity : 0,
-          background: `radial-gradient(${glowRadius}px circle at ${position.x}px ${position.y}px, ${colors[0]}, transparent)`,
+          opacity: isHovered ? Math.max(glowIntensity, 0.9) : 0,
+          filter: isHovered ? 'blur(24px)' : 'blur(0px)',
+          mixBlendMode: 'screen',
+          background: isHovered
+            ? `radial-gradient(circle at ${position.x}px ${position.y}px, ${colors[0]} 0%, ${colors[1] ?? colors[0]} 20%, ${colors[2] ?? 'transparent'} 55%, transparent 90%)`
+            : 'transparent',
         }}
       />
 

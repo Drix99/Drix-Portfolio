@@ -70,23 +70,22 @@ export default function Experience(): JSX.Element {
           {experiences.map((experience) => (
             <BorderGlow
               key={experience.id}
-              className="p-px" 
-              borderRadius={16}
-              glowColor="34 197 94" 
-              colors={['#22c55e', '#10b981', '#4ade80']} 
-              backgroundColor="transparent"
+              className="w-full"
+              borderRadius={24}
+              glowRadius={120}
               glowIntensity={1}
+              colors={['rgba(0,255,136,0.35)', 'rgba(0,212,255,0.22)', 'rgba(255,255,255,0.05)']}
+              backgroundColor="rgba(10,14,39,0.92)"
             >
-              <div className="p-6 md:p-8 group cursor-default bg-black/40 backdrop-blur-xl rounded-[15px] relative overflow-hidden">
-                <div className="absolute -top-10 -right-10 w-32 h-32 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-colors"></div>
-                <div className="relative z-10 space-y-4">
+              <div className="relative z-10 p-6 md:p-8 rounded-[inherit]">
+                <div className="space-y-4">
                   <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                     <div className="flex items-start gap-4 flex-1">
-                      <div className="mt-1 p-2 rounded-lg bg-primary/20 border border-primary/30 group-hover:border-primary/60 transition-colors shrink-0">
+                      <div className="mt-1 p-2 rounded-lg bg-primary/20 border border-primary/30 transition-colors shrink-0">
                         <Briefcase className="text-primary" size={20} />
                       </div>
                       <div className="min-w-0 flex-1">
-                        <h3 className="text-xl font-bold text-accent group-hover:text-primary transition-colors leading-tight">
+                        <h3 className="text-xl font-bold text-accent transition-colors leading-tight">
                           {experience.role}
                         </h3>
                         <p className="text-foreground/70 font-medium">{experience.company}</p>

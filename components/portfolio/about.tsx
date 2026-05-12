@@ -23,7 +23,7 @@ export default function About(): JSX.Element {
     {
       category: 'Soft Skills',
       icon: Users,
-      technologies: ['Problem Solving', 'Team Collaboration', 'UI/UX Design', 'Documentation', 'Communication']
+      technologies: ['Problem Solving', 'Team Collaboration', 'UI Design', 'Documentation', 'Communication']
     }
   ]
 
