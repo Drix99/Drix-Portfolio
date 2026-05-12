@@ -100,7 +100,7 @@ export default function About(): JSX.Element {
                     {skill.technologies.map((tech) => (
                       <span
                         key={tech}
-                        className="px-3 py-1 text-xs font-semibold bg-primary/20 text-primary rounded-full border border-primary/30 hover-glow transition-all duration-300"
+                        className="px-3 py-1 text-xs font-semibold bg-primary/20 text-primary rounded-full border border-primary/30"
                       >
                         {tech}
                       </span>

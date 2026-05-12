@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence, Variants } from 'framer-motion'
+import { Loader2 } from 'lucide-react'
 import Hero from '@/components/portfolio/hero'
 import About from '@/components/portfolio/about'
 import Carousel from '@/components/portfolio/carousel'
@@ -11,10 +12,10 @@ import Navigation from '@/components/portfolio/navigation'
 
 export default function Home() {
   const [isLoaded, setIsLoaded] = useState(false)
-  const [showPortfolioWarning, setShowPortfolioWarning] = useState(true)
 
   useEffect(() => {
-    setIsLoaded(true)
+    const timer = window.setTimeout(() => setIsLoaded(true), 1200)
+    return () => window.clearTimeout(timer)
   }, [])
 
   const sectionVariants: Variants = {
@@ -35,36 +36,41 @@ export default function Home() {
       </div>
 
       <div className="relative z-10">
-        <AnimatePresence>
-          {!showPortfolioWarning && (
-            <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.3 }}>
-              <Navigation />
-            </motion.div>
-          )}
-        </AnimatePresence>
-        
         <AnimatePresence mode="wait">
-          {isLoaded && (
-            <motion.div className="flex flex-col" initial="hidden" animate="visible">
-              <motion.section id="home" className="scroll-mt-24" variants={sectionVariants} whileInView="visible" viewport={{ once: true, margin: "-100px" }}>
-                <Hero showPortfolioWarning={showPortfolioWarning} setShowPortfolioWarning={setShowPortfolioWarning} />
-              </motion.section>
-
-              <motion.section id="about" className="scroll-mt-24" variants={sectionVariants} whileInView="visible" viewport={{ once: true, margin: "-100px" }}>
-                <About />
-              </motion.section>
-
-              <motion.div variants={sectionVariants} whileInView="visible" viewport={{ once: true }}>
-                <Carousel />
+          {!isLoaded ? (
+            <motion.div key="loading" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }} className="fixed inset-0 z-50 flex items-center justify-center bg-background/95 backdrop-blur-xl">
+              <div className="flex flex-col items-center gap-4 px-6 py-8 rounded-3xl bg-slate-950/95 border border-white/10 shadow-2xl">
+                <Loader2 className="animate-spin text-primary" size={42} />
+                <p className="text-sm uppercase tracking-[0.3em] text-foreground/70">Loading portfolio...</p>
+              </div>
+            </motion.div>
+          ) : (
+            <motion.div key="content" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}>
+              <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.3 }}>
+                <Navigation />
               </motion.div>
 
-              <motion.section id="projects" className="scroll-mt-24" variants={sectionVariants} whileInView="visible" viewport={{ once: true, margin: "-100px" }}>
-                <Projects />
-              </motion.section>
+              <motion.div className="flex flex-col" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}>
+                <motion.section id="home" className="scroll-mt-24" variants={sectionVariants} whileInView="visible" viewport={{ once: true, margin: "-100px" }}>
+                  <Hero />
+                </motion.section>
 
-              <motion.section id="experience" className="scroll-mt-24" variants={sectionVariants} whileInView="visible" viewport={{ once: true, margin: "-100px" }}>
-                <Experience />
-              </motion.section>
+                <motion.section id="about" className="scroll-mt-24" variants={sectionVariants} whileInView="visible" viewport={{ once: true, margin: "-100px" }}>
+                  <About />
+                </motion.section>
+
+                <motion.div variants={sectionVariants} whileInView="visible" viewport={{ once: true }}>
+                  <Carousel />
+                </motion.div>
+
+                <motion.section id="projects" className="scroll-mt-24" variants={sectionVariants} whileInView="visible" viewport={{ once: true, margin: "-100px" }}>
+                  <Projects />
+                </motion.section>
+
+                <motion.section id="experience" className="scroll-mt-24" variants={sectionVariants} whileInView="visible" viewport={{ once: true, margin: "-100px" }}>
+                  <Experience />
+                </motion.section>
+              </motion.div>
             </motion.div>
           )}
         </AnimatePresence>

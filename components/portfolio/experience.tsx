@@ -126,16 +126,16 @@ export default function Experience(): JSX.Element {
           {showScrollTop && (
             <motion.div className="mt-8 flex justify-center w-full">
               <motion.button
+                type="button"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 20 }}
-                whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.97 }}
                 onClick={scrollToTop}
-                className="inline-flex items-center gap-2 px-2 py-1 text-xs font-semibold text-primary uppercase tracking-[0.35em] hover:text-primary/80 transition-all"
+                className="group inline-flex items-center gap-2 text-xs font-semibold text-primary uppercase tracking-[0.35em] transition duration-300 hover:text-white"
               >
-                <span>Back to top</span>
-                <ArrowUp size={14} />
+                <span className="transition-colors duration-300 group-hover:text-white">Back to top</span>
+                <ArrowUp className="transition-colors duration-300 group-hover:text-white" size={14} />
               </motion.button>
             </motion.div>
           )}

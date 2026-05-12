@@ -57,7 +57,7 @@ export default function Contact(): JSX.Element {
       <div id="contact" className="mt-20 text-center p-8 rounded-2xl bg-white/5 border border-accent/20 relative overflow-hidden backdrop-blur-md">
         <h3 className="text-3xl font-bold text-accent mb-4 tracking-tight">Ready to Work Together?</h3>
         <p className="text-foreground/70 mb-8 max-w-xl mx-auto text-lg">
-          Whether it's a new project or just a 1v1 midlane only, my inbox is always open.
+          Whether it's a new project or job opportunity, my inbox is always open.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <button

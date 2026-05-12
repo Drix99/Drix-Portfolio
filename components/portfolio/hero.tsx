@@ -1,23 +1,17 @@
 'use client'
 
-import { ArrowRight, X, Award, AlertTriangle, Eye, ZoomIn, Loader2 } from 'lucide-react'
-import { Dispatch, JSX, SetStateAction, useState, useEffect } from 'react'
+import { ArrowRight, X, Award, ZoomIn } from 'lucide-react'
+import { JSX, useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import TrueFocus from '../TrueFocus'
 import OrbitImages from '../OrbitImages'
 
-interface HeroProps {
-  showPortfolioWarning: boolean
-  setShowPortfolioWarning: Dispatch<SetStateAction<boolean>>
-}
-
-export default function Hero({ showPortfolioWarning, setShowPortfolioWarning }: HeroProps): JSX.Element {
+export default function Hero(): JSX.Element {
   const [showCerts, setShowCerts] = useState(false);
   const [selectedCert, setSelectedCert] = useState<string | null>(null);
-  const [isAccessLoading, setIsAccessLoading] = useState(false);
 
   useEffect(() => {
-    const shouldLock = showCerts || showPortfolioWarning || selectedCert;
+    const shouldLock = showCerts || selectedCert;
     const htmlStyle = document.documentElement.style;
     const bodyStyle = document.body.style;
 
@@ -39,7 +33,7 @@ export default function Hero({ showPortfolioWarning, setShowPortfolioWarning }: 
       bodyStyle.overflow = '';
       bodyStyle.height = '';
     };
-  }, [showCerts, showPortfolioWarning, selectedCert]);
+  }, [showCerts, selectedCert]);
 
   const techIcons = [
     "/cropped_circle_image.png",
@@ -70,12 +64,12 @@ export default function Hero({ showPortfolioWarning, setShowPortfolioWarning }: 
                 manualMode={false}
                 blurAmount={5}
                 borderColor="var(--primary)" 
-                animationDuration={0.8}
+                animationDuration={2.0}
                 pauseBetweenAnimations={1}
               />
             </div>
             <p className="text-xl text-foreground/80 font-medium leading-tight text-center md:text-left">
-               Junior Full-Stack Developer | UI/UX Enthusiast
+               Junior Full-Stack Developer | UI Enthusiast
             </p>
           </div>
 
@@ -194,62 +188,6 @@ export default function Hero({ showPortfolioWarning, setShowPortfolioWarning }: 
         )}
       </AnimatePresence>
 
-      {/* --- SYSTEM BRIEFING MODAL --- */}
-      <AnimatePresence>
-        {showPortfolioWarning && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-10000 flex items-center justify-center p-4 bg-black/98 backdrop-blur-3xl"
-          >
-            <motion.div
-              initial={{ y: 24, opacity: 0, scale: 0.98 }}
-              animate={{ y: 0, opacity: 1, scale: 1 }}
-              exit={{ y: 24, opacity: 0, scale: 0.98 }}
-              transition={{ duration: 0.35, ease: 'easeOut' }}
-              className="bg-[#080808] border border-white/5 p-10 rounded-[3rem] max-w-lg w-full text-center shadow-2xl"
-            >
-            <div className="mb-8 flex justify-center">
-                <div className="p-5 bg-primary/5 rounded-full border border-primary/20 animate-pulse">
-                    <AlertTriangle className="text-primary" size={48} />
-                </div>
-            </div>
-            <h2 className="text-4xl font-black text-white mb-6 tracking-tighter uppercase italic">System Briefing</h2>
-            <div className="space-y-6 mb-10">
-                <div className="bg-white/5 border border-white/10 p-5 rounded-2xl flex items-start gap-4 text-left">
-                    <Eye className="text-primary shrink-0 mt-1" size={24} />
-                    <div>
-                        <h4 className="text-white font-bold text-sm uppercase tracking-wider mb-1">Visual Sensitivity</h4>
-                        <p className="text-white/40 text-xs leading-relaxed">My portfolio uses high-contrast neon effects. If you're not comfortable with neon visuals, try lowering your screen brightness.</p>
-                    </div>
-                </div>
-            </div>
-            <button
-              onClick={() => {
-                setIsAccessLoading(true)
-                window.setTimeout(() => {
-                  setShowPortfolioWarning(false)
-                  setIsAccessLoading(false)
-                }, 1300)
-              }}
-              disabled={isAccessLoading}
-              className="w-full py-5 bg-primary text-black font-black rounded-2xl hover:shadow-[0_0_30px_rgba(34,197,94,0.3)] transition-all uppercase tracking-widest disabled:cursor-not-allowed disabled:bg-primary/70"
-            >
-              <div className="inline-flex items-center justify-center gap-3">
-                {isAccessLoading ? (
-                  <Loader2 className="animate-spin" size={20} />
-                ) : (
-                  <span>Initialize Access</span>
-                )}
-                {isAccessLoading ? <span>Loading...</span> : null}
-              </div>
-            </button>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </section>
   )
 }
