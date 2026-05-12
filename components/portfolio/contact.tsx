@@ -96,7 +96,8 @@ export default function Contact(): JSX.Element {
               initial={{ y: '100%', opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: '100%', opacity: 0 }}
-              transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+              transition={{ type: 'tween', duration: 0.3, ease: 'easeOut' }}
+              style={{ willChange: 'transform' }}
               className="fixed bottom-0 left-0 right-0 w-full md:inset-auto md:top-[55%] md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-auto z-50"
             >
               <div className="bg-[#0c0c0c] border-t md:border border-white/10 rounded-t-[2.5rem] md:rounded-2xl p-6 md:p-8 shadow-2xl relative md:w-96 h-full md:h-auto">
@@ -155,7 +156,6 @@ export default function Contact(): JSX.Element {
                       </div>
 
                       <motion.button
-                        whileTap={{ scale: 0.98 }}
                         disabled={isSending}
                         className="w-full py-5 bg-primary text-black font-black rounded-2xl flex items-center justify-center gap-3 shadow-[0_0_20px_rgba(34,197,94,0.3)] disabled:opacity-50 uppercase italic tracking-widest mt-4"
                       >
