@@ -31,7 +31,13 @@ export default function Experience(): JSX.Element {
   useEffect(() => {
     const handleModalState = () => {
       const isModalOpen = document.body.hasAttribute('data-modal-open');
-      setShowScrollTop((prev) => prev && !isModalOpen);
+      if (isModalOpen) {
+        // Hide button when modal opens
+        setShowScrollTop(false);
+      } else {
+        // Restore button visibility based on scroll position when modal closes
+        setShowScrollTop(window.scrollY > 400);
+      }
     };
     const observer = new MutationObserver(handleModalState);
     observer.observe(document.body, { attributes: true, attributeFilter: ['data-modal-open'] });
