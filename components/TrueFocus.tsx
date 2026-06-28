@@ -1,15 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { motion } from 'motion/react';
 
 interface TrueFocusProps {
   sentence?: string;
   separator?: string;
-  manualMode?: boolean;
-  blurAmount?: number;
   borderColor?: string;
   glowColor?: string;
-  animationDuration?: number;
-  pauseBetweenAnimations?: number;
 }
 
 interface FocusRect {
@@ -22,147 +19,205 @@ interface FocusRect {
 const TrueFocus: React.FC<TrueFocusProps> = ({
   sentence = 'True Focus',
   separator = ' ',
-  manualMode = false,
-  blurAmount = 5,
-  borderColor = 'green',
-  glowColor = 'rgba(0, 255, 0, 0.6)',
-  animationDuration = 0.5,
-  pauseBetweenAnimations = 1
+  borderColor = 'rgba(34,197,94,0.9)',
+  glowColor = 'rgba(34,197,94,0.25)'
 }) => {
   const words = sentence.split(separator);
-  const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const [lastActiveIndex, setLastActiveIndex] = useState<number | null>(null);
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const wordRefs = useRef<(HTMLSpanElement | null)[]>([]);
-  const [focusRect, setFocusRect] = useState<FocusRect>({ x: 0, y: 0, width: 0, height: 0 });
+  const [mounted, setMounted] = useState(false);
+  const [focusRect, setFocusRect] = useState<FocusRect>({ x: -100, y: -100, width: 16, height: 16 });
+  const [hasCursorMoved, setHasCursorMoved] = useState(false);
+  const [isButtonHover, setIsButtonHover] = useState(false);
+  const activeElementRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
-    if (!manualMode) {
-      const interval = setInterval(
-        () => {
-          setCurrentIndex(prev => (prev + 1) % words.length);
-        },
-        (animationDuration + pauseBetweenAnimations) * 1000
-      );
-
-      return () => clearInterval(interval);
-    }
-  }, [manualMode, animationDuration, pauseBetweenAnimations, words.length]);
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
-    if (currentIndex === null || currentIndex === -1) return;
-    if (!wordRefs.current[currentIndex] || !containerRef.current) return;
+    const styleTag = document.createElement('style');
+    styleTag.id = 'true-focus-cursor-style';
+    styleTag.textContent = `
+      body, body * {
+        cursor: none !important;
+      }
 
-    const parentRect = containerRef.current.getBoundingClientRect();
-    const activeRect = wordRefs.current[currentIndex]!.getBoundingClientRect();
+      input, textarea, select, [contenteditable="true"] {
+        cursor: text !important;
+      }
+    `;
+    document.head.appendChild(styleTag);
 
-    setFocusRect({
-      x: activeRect.left - parentRect.left,
-      y: activeRect.top - parentRect.top,
-      width: activeRect.width,
-      height: activeRect.height
-    });
-  }, [currentIndex, words.length]);
+    const updatePointer = (x: number, y: number) => {
+      setHasCursorMoved(true);
+      if (!activeElementRef.current) {
+        setFocusRect({ x: x - 12, y: y - 12, width: 24, height: 24 });
+      }
+    };
 
-  const handleMouseEnter = (index: number) => {
-    if (manualMode) {
-      setLastActiveIndex(index);
-      setCurrentIndex(index);
-    }
-  };
+    const updateHoverRect = (element: HTMLElement | null) => {
+      if (element) {
+        activeElementRef.current = element;
+        setIsButtonHover(true);
+        const rect = element.getBoundingClientRect();
+        setFocusRect({ x: rect.left - 10, y: rect.top - 10, width: rect.width + 20, height: rect.height + 20 });
+      } else {
+        activeElementRef.current = null;
+        setIsButtonHover(false);
+      }
+    };
 
-  const handleMouseLeave = () => {
-    if (manualMode) {
-      setCurrentIndex(lastActiveIndex!);
-    }
-  };
+    const handleMouseMove = (event: MouseEvent) => {
+      updatePointer(event.clientX, event.clientY);
+    };
+
+    const handleMouseOver = (event: MouseEvent) => {
+      const target = (event.target as HTMLElement)?.closest('button, [role="button"], a[href]') as HTMLElement | null;
+      if (target) {
+        updateHoverRect(target);
+      } else {
+        const current = activeElementRef.current;
+        if (current && !current.contains(event.relatedTarget as Node | null)) {
+          updateHoverRect(null);
+        }
+      }
+    };
+
+    const handleMouseOut = (event: MouseEvent) => {
+      const relatedTarget = event.relatedTarget as HTMLElement | null;
+      if (!relatedTarget || !relatedTarget.closest('button, [role="button"], a[href]')) {
+        updateHoverRect(null);
+      }
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseover', handleMouseOver);
+    document.addEventListener('mouseout', handleMouseOut);
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseover', handleMouseOver);
+      document.removeEventListener('mouseout', handleMouseOut);
+      styleTag.remove();
+    };
+  }, []);
+
+  const overlay = (
+    <motion.div
+      className="pointer-events-none"
+      animate={{
+        x: focusRect.x,
+        y: focusRect.y,
+        width: focusRect.width,
+        height: focusRect.height,
+        opacity: hasCursorMoved ? 1 : 0
+      }}
+      transition={{ duration: 0.02, ease: 'linear' }}
+      style={
+        {
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          zIndex: 2147483647,
+          background: 'transparent'
+        } as React.CSSProperties
+      }
+    >
+      <div className="relative w-full h-full pointer-events-none">
+        <span
+          className="absolute block"
+          style={{
+            width: 12,
+            height: 2,
+            background: borderColor,
+            top: 0,
+            left: 0
+          }}
+        />
+        <span
+          className="absolute block"
+          style={{
+            width: 2,
+            height: 12,
+            background: borderColor,
+            top: 0,
+            left: 0
+          }}
+        />
+        <span
+          className="absolute block"
+          style={{
+            width: 12,
+            height: 2,
+            background: borderColor,
+            top: 0,
+            right: 0
+          }}
+        />
+        <span
+          className="absolute block"
+          style={{
+            width: 2,
+            height: 12,
+            background: borderColor,
+            top: 0,
+            right: 0
+          }}
+        />
+        <span
+          className="absolute block"
+          style={{
+            width: 12,
+            height: 2,
+            background: borderColor,
+            bottom: 0,
+            left: 0
+          }}
+        />
+        <span
+          className="absolute block"
+          style={{
+            width: 2,
+            height: 12,
+            background: borderColor,
+            bottom: 0,
+            left: 0
+          }}
+        />
+        <span
+          className="absolute block"
+          style={{
+            width: 12,
+            height: 2,
+            background: borderColor,
+            bottom: 0,
+            right: 0
+          }}
+        />
+        <span
+          className="absolute block"
+          style={{
+            width: 2,
+            height: 12,
+            background: borderColor,
+            bottom: 0,
+            right: 0
+          }}
+        />
+      </div>
+    </motion.div>
+  );
 
   return (
-    <div
-      className="relative flex gap-4 justify-center items-center flex-wrap"
-      ref={containerRef}
-      style={{ outline: 'none', userSelect: 'none' }}
-    >
-      {words.map((word, index) => {
-        const isActive = index === currentIndex;
-        return (
-          <span
-            key={index}
-            ref={el => {
-              wordRefs.current[index] = el;
-            }}
-            className="relative text-[3rem] font-black cursor-pointer"
-            style={
-              {
-                filter: manualMode
-                  ? isActive
-                    ? `blur(0px)`
-                    : `blur(${blurAmount}px)`
-                  : isActive
-                    ? `blur(0px)`
-                    : `blur(${blurAmount}px)`,
-                transition: `filter ${animationDuration}s ease`,
-                outline: 'none',
-                userSelect: 'none'
-              } as React.CSSProperties
-            }
-            onMouseEnter={() => handleMouseEnter(index)}
-            onMouseLeave={handleMouseLeave}
-          >
+    <>
+      <div className="relative flex gap-4 justify-center items-center flex-wrap" style={{ userSelect: 'none' }}>
+        {words.map((word, index) => (
+          <span key={index} className="text-[3rem] font-black select-none">
             {word}
           </span>
-        );
-      })}
-
-      <motion.div
-        className="absolute top-0 left-0 pointer-events-none box-border border-0"
-        animate={{
-          x: focusRect.x,
-          y: focusRect.y,
-          width: focusRect.width,
-          height: focusRect.height,
-          opacity: currentIndex >= 0 ? 1 : 0
-        }}
-        transition={{
-          duration: animationDuration
-        }}
-        style={
-          {
-            '--border-color': borderColor,
-            '--glow-color': glowColor
-          } as React.CSSProperties
-        }
-      >
-        <span
-          className="absolute w-4 h-4 border-[3px] rounded-[3px] -top-2.5 -left-2.5 border-r-0 border-b-0"
-          style={{
-            borderColor: 'var(--border-color)',
-            filter: 'drop-shadow(0 0 4px var(--border-color))'
-          }}
-        ></span>
-        <span
-          className="absolute w-4 h-4 border-[3px] rounded-[3px] -top-2.5 -right-2.5 border-l-0 border-b-0"
-          style={{
-            borderColor: 'var(--border-color)',
-            filter: 'drop-shadow(0 0 4px var(--border-color))'
-          }}
-        ></span>
-        <span
-          className="absolute w-4 h-4 border-[3px] rounded-[3px] -bottom-2.5 -left-2.5 border-r-0 border-t-0"
-          style={{
-            borderColor: 'var(--border-color)',
-            filter: 'drop-shadow(0 0 4px var(--border-color))'
-          }}
-        ></span>
-        <span
-          className="absolute w-4 h-4 border-[3px] rounded-[3px] -bottom-2.5 -right-2.5 border-l-0 border-t-0"
-          style={{
-            borderColor: 'var(--border-color)',
-            filter: 'drop-shadow(0 0 4px var(--border-color))'
-          }}
-        ></span>
-      </motion.div>
-    </div>
+        ))}
+      </div>
+      {mounted ? createPortal(overlay, document.body) : null}
+    </>
   );
 };
 
