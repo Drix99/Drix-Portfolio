@@ -72,7 +72,7 @@ export default function About(): JSX.Element {
             </p>
             <p>
               When I’m not in the IDE, I’m usually gaming, exploring new frameworks, 
-              or spending time with friends and fam.
+              or spending time with friends.
             </p>
           </div>
         </div>
