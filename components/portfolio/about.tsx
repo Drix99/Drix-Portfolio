@@ -41,7 +41,7 @@ export default function About(): JSX.Element {
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold neon-glow-secondary mb-4">About Me</h2>
           <p className="text-foreground/60 text-lg max-w-3xl mx-auto">
-            Passionate full-stack developer with expertise in modern web technologies, creating intuitive user experiences and robust backend systems.
+            Passionate Software developer with expertise in modern web technologies, creating intuitive user experiences and robust backend systems.
           </p>
         </div>
 
@@ -63,12 +63,12 @@ export default function About(): JSX.Element {
           <h3 className="text-2xl font-bold mb-6 text-primary">My Journey</h3>
           <div className="space-y-4 text-foreground/70 leading-relaxed">
             <p>
-              I’m a Computer Science Graduate and an aspiring Full-Stack Developer driven by the challenge of building seamless digital experiences. 
-              Over the last 2+ years, I’ve moved beyond the basics to engineer full-scale applications that bridge the gap between robust backends and intuitive frontends.
+              I'm a Computer Science graduate and aspiring Software Developer who enjoys building web applications and solving real-world problems through code. 
+              I've worked on personal and academic projects using modern web technologies, and I'm continuously learning to become a better developer.
             </p>
             <p>
-              My expertise lies in React and Vue.js for the frontend, powered by Node.js and PHP on the backend, 
-              with a growing focus on mobile via Flutter. I’m passionate about clean, maintainable code and love the 'aha!' moment of solving a complex bug.
+              I enjoy building full-stack applications and continuously learning new technologies. 
+              I use AI-assisted development tools to speed up learning, explore new concepts, and improve my workflow while making sure I understand, test, and refine the code I use.
             </p>
             <p>
               When I’m not in the IDE, I’m usually gaming, exploring new frameworks, 

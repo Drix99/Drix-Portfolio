@@ -61,20 +61,16 @@ export default function Hero(): JSX.Element {
             <div className="relative flex justify-center md:justify-start">
               <TrueFocus 
                 sentence="Audric Suarez"
-                manualMode={false}
-                blurAmount={5}
                 borderColor="var(--primary)" 
-                animationDuration={2.0}
-                pauseBetweenAnimations={1}
               />
             </div>
             <p className="text-xl text-foreground/80 font-medium leading-tight text-center md:text-left">
-               Junior Full-Stack Developer | UI Enthusiast
+               Software Developer | UI Enthusiast
             </p>
           </div>
 
           <p className="text-foreground/60 text-lg max-w-md leading-relaxed text-center md:text-left mx-auto md:mx-0">
-            “You should enjoy the little detours. Because that’s where you’ll find the things more important than what you want.” <span className="text-accent italic font-medium">— Ging Freecss (Hunter x Hunter)</span>
+            "You should enjoy the little detours. Because that's where you'll find the things more important than what you want." <span className="text-accent italic font-medium">— Ging Freecss (Hunter x Hunter)</span>
           </p>
 
           <div className="flex flex-col sm:flex-row items-center gap-6">
