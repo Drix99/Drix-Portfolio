@@ -148,6 +148,10 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
       return;
     }
 
+    const interactiveSelector = 'button, [role="button"], a[href], input, textarea, select, summary, [tabindex]:not([tabindex="-1"])';
+    const getInteractiveTarget = (target: HTMLElement | null) =>
+      target?.closest(interactiveSelector) as HTMLElement | null;
+
     const updateHoverRect = (element: HTMLElement | null) => {
       if (element) {
         setActiveTouchTarget(element);
@@ -160,42 +164,50 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
       }
     };
 
+    const getTouchTarget = (x: number, y: number) => {
+      const element = document.elementFromPoint(x, y) as HTMLElement | null;
+      return getInteractiveTarget(element);
+    };
+
     const handlePointerUp = (event: PointerEvent) => {
       if (event.pointerType !== 'touch') {
         return;
       }
 
-      const target = (event.target as HTMLElement)?.closest('button, [role="button"], a[href]') as HTMLElement | null;
-      if (target) {
-        updateHoverRect(target);
-      } else {
-        updateHoverRect(null);
-      }
+      const target = getTouchTarget(event.clientX, event.clientY);
+      updateHoverRect(target);
     };
 
     // Some mobile browsers don't provide PointerEvents; use touchstart to set
-    // the active touch target immediately and touchend to clear when needed.
+    // the active touch target immediately and touchend/touchcancel to clear when needed.
     const handleTouchStartSet = (event: TouchEvent) => {
-      const target = (event.target as HTMLElement)?.closest('button, [role="button"], a[href]') as HTMLElement | null;
-      if (target) {
-        updateHoverRect(target);
-      }
+      const touch = event.changedTouches[0];
+      const target = touch ? getTouchTarget(touch.clientX, touch.clientY) : null;
+      updateHoverRect(target);
     };
 
     const handleTouchEnd = (event: TouchEvent) => {
-      const target = (event.target as HTMLElement)?.closest('button, [role="button"], a[href]') as HTMLElement | null;
+      const touch = event.changedTouches[0];
+      const target = touch ? getTouchTarget(touch.clientX, touch.clientY) : null;
       if (!target) {
         updateHoverRect(null);
       }
     };
 
+    const handleTouchCancel = () => {
+      updateHoverRect(null);
+    };
+
     document.addEventListener('pointerup', handlePointerUp);
     document.addEventListener('touchstart', handleTouchStartSet, { passive: true });
     document.addEventListener('touchend', handleTouchEnd, { passive: true });
+    document.addEventListener('touchcancel', handleTouchCancel, { passive: true });
 
     return () => {
       document.removeEventListener('pointerup', handlePointerUp);
+      document.removeEventListener('touchstart', handleTouchStartSet);
       document.removeEventListener('touchend', handleTouchEnd);
+      document.removeEventListener('touchcancel', handleTouchCancel);
     };
   }, [isMobile]);
 

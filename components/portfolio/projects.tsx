@@ -28,8 +28,18 @@ export default function Projects(): JSX.Element {
       if (max <= 0) return setScrollProgress(100)
       const pct = Math.min(100, Math.max(0, (el.scrollLeft / max) * 100))
       setScrollProgress(pct)
-      const idx = Math.round(el.scrollLeft / el.clientWidth)
-      setActiveIndex(Math.min(projects.length - 1, Math.max(0, idx)))
+
+      const children = Array.from(el.children) as HTMLElement[]
+      let bestIndex = 0
+      let bestDiff = Infinity
+      children.forEach((child, index) => {
+        const diff = Math.abs(child.offsetLeft - el.scrollLeft)
+        if (diff < bestDiff) {
+          bestDiff = diff
+          bestIndex = index
+        }
+      })
+      setActiveIndex(Math.min(projects.length - 1, Math.max(0, bestIndex)))
     }
 
     el.addEventListener('scroll', onScroll, { passive: true })
@@ -227,7 +237,9 @@ export default function Projects(): JSX.Element {
                     onClick={() => {
                       const el = scrollContainerRef.current
                       if (!el) return
-                      el.scrollTo({ left: idx * el.clientWidth, behavior: 'smooth' })
+                      const child = el.children[idx] as HTMLElement | null
+                      if (!child) return
+                      el.scrollTo({ left: child.offsetLeft, behavior: 'smooth' })
                       setActiveIndex(idx)
                     }}
                     aria-label={`Go to project ${idx + 1}`}
