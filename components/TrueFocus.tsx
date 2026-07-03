@@ -24,9 +24,11 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
 }) => {
   const words = sentence.split(separator);
   const [mounted, setMounted] = useState(false);
+  const [isMobile, setIsMobile] = useState<boolean | null>(null);
   const [focusRect, setFocusRect] = useState<FocusRect>({ x: -100, y: -100, width: 16, height: 16 });
   const [hasCursorMoved, setHasCursorMoved] = useState(false);
   const [isButtonHover, setIsButtonHover] = useState(false);
+  const [activeTouchTarget, setActiveTouchTarget] = useState<HTMLElement | null>(null);
   const activeElementRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
@@ -34,6 +36,46 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
   }, []);
 
   useEffect(() => {
+    if (typeof window === 'undefined') {
+      setIsMobile(false);
+      return;
+    }
+
+    const supportsTouch = () => {
+      return (
+        'ontouchstart' in window ||
+        navigator.maxTouchPoints > 0 ||
+        (navigator as any).msMaxTouchPoints > 0 ||
+        window.matchMedia('(hover: none), (pointer: coarse)').matches
+      );
+    };
+
+    const mediaQuery = window.matchMedia('(hover: none), (pointer: coarse)');
+    const updateIsMobile = () => {
+      const mobile = supportsTouch();
+      setIsMobile(mobile);
+    };
+
+    updateIsMobile();
+    mediaQuery.addEventListener('change', updateIsMobile);
+
+    const handleTouchStart = () => {
+      setIsMobile(true);
+    };
+
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+
+    return () => {
+      mediaQuery.removeEventListener('change', updateIsMobile);
+      window.removeEventListener('touchstart', handleTouchStart);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isMobile !== false) {
+      return;
+    }
+
     const styleTag = document.createElement('style');
     styleTag.id = 'true-focus-cursor-style';
     styleTag.textContent = `
@@ -99,7 +141,94 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
       document.removeEventListener('mouseout', handleMouseOut);
       styleTag.remove();
     };
-  }, []);
+  }, [isMobile]);
+
+  useEffect(() => {
+    if (isMobile !== true) {
+      return;
+    }
+
+    const updateHoverRect = (element: HTMLElement | null) => {
+      if (element) {
+        setActiveTouchTarget(element);
+        setIsButtonHover(true);
+        const rect = element.getBoundingClientRect();
+        setFocusRect({ x: rect.left - 10, y: rect.top - 10, width: rect.width + 20, height: rect.height + 20 });
+      } else {
+        setActiveTouchTarget(null);
+        setIsButtonHover(false);
+      }
+    };
+
+    const handlePointerUp = (event: PointerEvent) => {
+      if (event.pointerType !== 'touch') {
+        return;
+      }
+
+      const target = (event.target as HTMLElement)?.closest('button, [role="button"], a[href]') as HTMLElement | null;
+      if (target) {
+        updateHoverRect(target);
+      } else {
+        updateHoverRect(null);
+      }
+    };
+
+    const handleTouchEnd = (event: TouchEvent) => {
+      const target = (event.target as HTMLElement)?.closest('button, [role="button"], a[href]') as HTMLElement | null;
+      if (!target) {
+        updateHoverRect(null);
+      }
+    };
+
+    document.addEventListener('pointerup', handlePointerUp);
+    document.addEventListener('touchend', handleTouchEnd, { passive: true });
+
+    return () => {
+      document.removeEventListener('pointerup', handlePointerUp);
+      document.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, [isMobile]);
+
+  useEffect(() => {
+    if (!activeTouchTarget) {
+      return;
+    }
+
+    const checkTarget = () => {
+      if (!activeTouchTarget || !document.contains(activeTouchTarget) || activeTouchTarget.getClientRects().length === 0) {
+        setActiveTouchTarget(null);
+        setIsButtonHover(false);
+      }
+    };
+
+    const observer = new MutationObserver(checkTarget);
+    observer.observe(document.body, { childList: true, subtree: true, attributes: true });
+    checkTarget();
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [activeTouchTarget]);
+
+  useEffect(() => {
+    if (isMobile !== true || !activeTouchTarget) {
+      return;
+    }
+
+    const handlePointerDown = (event: PointerEvent) => {
+      const target = (event.target as HTMLElement)?.closest('button, [role="button"], a[href]') as HTMLElement | null;
+      if (!target || target !== activeTouchTarget) {
+        setActiveTouchTarget(null);
+        setIsButtonHover(false);
+      }
+    };
+
+    document.addEventListener('pointerdown', handlePointerDown);
+
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDown);
+    };
+  }, [isMobile, activeTouchTarget]);
 
   const overlay = (
     <motion.div
@@ -109,7 +238,7 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
         y: focusRect.y,
         width: focusRect.width,
         height: focusRect.height,
-        opacity: hasCursorMoved ? 1 : 0
+        opacity: isMobile === false ? (hasCursorMoved ? 1 : 0) : isButtonHover ? 1 : 0
       }}
       transition={{ duration: 0.02, ease: 'linear' }}
       style={
@@ -216,7 +345,7 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
           </span>
         ))}
       </div>
-      {mounted ? createPortal(overlay, document.body) : null}
+      {mounted && (isMobile === false || (isMobile === true && activeTouchTarget)) ? createPortal(overlay, document.body) : null}
     </>
   );
 };

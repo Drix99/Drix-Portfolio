@@ -26,8 +26,8 @@ export default function Navbar() {
 
    const downloadResume = () => {
     const link = document.createElement('a')
-    link.href = '/Audric-Suarez_Resume.pdf'
-    link.download = 'Audric-Suarez_Resume.pdf'
+    link.href = '/Audric_Suarez-Resume.pdf'
+    link.download = 'Audric_Suarez-Resume.pdf'
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)
