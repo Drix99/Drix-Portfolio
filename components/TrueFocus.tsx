@@ -173,6 +173,15 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
       }
     };
 
+    // Some mobile browsers don't provide PointerEvents; use touchstart to set
+    // the active touch target immediately and touchend to clear when needed.
+    const handleTouchStartSet = (event: TouchEvent) => {
+      const target = (event.target as HTMLElement)?.closest('button, [role="button"], a[href]') as HTMLElement | null;
+      if (target) {
+        updateHoverRect(target);
+      }
+    };
+
     const handleTouchEnd = (event: TouchEvent) => {
       const target = (event.target as HTMLElement)?.closest('button, [role="button"], a[href]') as HTMLElement | null;
       if (!target) {
@@ -181,6 +190,7 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
     };
 
     document.addEventListener('pointerup', handlePointerUp);
+    document.addEventListener('touchstart', handleTouchStartSet, { passive: true });
     document.addEventListener('touchend', handleTouchEnd, { passive: true });
 
     return () => {
@@ -194,19 +204,50 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
       return;
     }
 
-    const checkTarget = () => {
+    // Keep the focus rect in sync while the touched element exists.
+    let rafId: number | null = null;
+
+    const updateWhileAlive = () => {
       if (!activeTouchTarget || !document.contains(activeTouchTarget) || activeTouchTarget.getClientRects().length === 0) {
         setActiveTouchTarget(null);
         setIsButtonHover(false);
+        return;
+      }
+
+      const rect = activeTouchTarget.getBoundingClientRect();
+      setFocusRect({ x: rect.left - 10, y: rect.top - 10, width: rect.width + 20, height: rect.height + 20 });
+      rafId = requestAnimationFrame(updateWhileAlive);
+    };
+
+    const observer = new MutationObserver(() => {
+      if (!activeTouchTarget || !document.contains(activeTouchTarget) || activeTouchTarget.getClientRects().length === 0) {
+        if (rafId) cancelAnimationFrame(rafId);
+        setActiveTouchTarget(null);
+        setIsButtonHover(false);
+      }
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true, attributes: true });
+
+    // Also update on scroll/resize for better responsiveness during layout changes
+    const onScrollOrResize = () => {
+      if (activeTouchTarget && document.contains(activeTouchTarget)) {
+        const rect = activeTouchTarget.getBoundingClientRect();
+        setFocusRect({ x: rect.left - 10, y: rect.top - 10, width: rect.width + 20, height: rect.height + 20 });
       }
     };
 
-    const observer = new MutationObserver(checkTarget);
-    observer.observe(document.body, { childList: true, subtree: true, attributes: true });
-    checkTarget();
+    window.addEventListener('scroll', onScrollOrResize, { passive: true });
+    window.addEventListener('resize', onScrollOrResize);
+
+    // start RAF tracking
+    updateWhileAlive();
 
     return () => {
       observer.disconnect();
+      if (rafId) cancelAnimationFrame(rafId);
+      window.removeEventListener('scroll', onScrollOrResize);
+      window.removeEventListener('resize', onScrollOrResize);
     };
   }, [activeTouchTarget]);
 

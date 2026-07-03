@@ -2,7 +2,7 @@
 
 import { Folder, Lock, ShieldCheck } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
-import { JSX, useState } from 'react'
+import { JSX, useState, useRef, useEffect } from 'react'
 import BorderGlow from '../BorderGlow'
 
 interface Project {
@@ -15,6 +15,27 @@ interface Project {
 
 export default function Projects(): JSX.Element {
   const [isFolderOpen, setIsFolderOpen] = useState(false)
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null)
+  const [scrollProgress, setScrollProgress] = useState(0)
+  const [activeIndex, setActiveIndex] = useState(0)
+
+  useEffect(() => {
+    const el = scrollContainerRef.current
+    if (!el) return
+
+    const onScroll = () => {
+      const max = el.scrollWidth - el.clientWidth
+      if (max <= 0) return setScrollProgress(100)
+      const pct = Math.min(100, Math.max(0, (el.scrollLeft / max) * 100))
+      setScrollProgress(pct)
+      const idx = Math.round(el.scrollLeft / el.clientWidth)
+      setActiveIndex(Math.min(projects.length - 1, Math.max(0, idx)))
+    }
+
+    el.addEventListener('scroll', onScroll, { passive: true })
+    onScroll()
+    return () => el.removeEventListener('scroll', onScroll)
+  }, [isFolderOpen])
 
   const projects: Project[] = [
     {
@@ -97,8 +118,9 @@ export default function Projects(): JSX.Element {
               glowIntensity={0.9}
               colors={['rgba(0,255,136,0.25)', 'rgba(0,212,255,0.18)', 'rgba(255,255,255,0.05)']}
               backgroundColor="rgba(15,23,42,0.95)"
+              interactive={false}
             >
-              <div className="relative z-10 flex min-h-95 flex-col justify-between rounded-[inherit] p-6 transition-transform duration-300 hover:-translate-y-1 hover:bg-slate-900/90">
+              <div className="relative z-10 flex min-h-95 flex-col justify-between rounded-[inherit] p-6 transition-transform duration-300 pointer-events-none">
                 <div className="space-y-5 grow">
                   <div className="space-y-3">
                     <h3 className="text-xl font-bold text-primary transition-all">
@@ -141,6 +163,7 @@ export default function Projects(): JSX.Element {
               transition={{ duration: 0.35, ease: 'easeOut' }}
             >
               <motion.div
+                ref={scrollContainerRef}
                 className="flex gap-4 overflow-x-auto pb-4 pl-4 pr-2 snap-x snap-mandatory touch-pan-x"
                 whileTap={{ cursor: 'grabbing' }}
               >
@@ -160,8 +183,9 @@ export default function Projects(): JSX.Element {
                       glowIntensity={0.9}
                       colors={['rgba(0,255,136,0.25)', 'rgba(0,212,255,0.18)', 'rgba(255,255,255,0.05)']}
                       backgroundColor="rgba(15,23,42,0.95)"
+                      interactive={false}
                     >
-                      <div className="relative z-10 flex min-h-95 flex-col justify-between rounded-[inherit] p-6 transition-transform duration-300 hover:-translate-y-1 hover:bg-slate-900/90">
+                      <div className="relative z-10 flex min-h-95 flex-col justify-between rounded-[inherit] p-6 transition-transform duration-300 pointer-events-none">
                         <div className="space-y-5 grow">
                           <div className="space-y-3">
                             <h3 className="text-xl font-bold text-primary transition-all">
@@ -194,6 +218,25 @@ export default function Projects(): JSX.Element {
                   </motion.div>
                 ))}
               </motion.div>
+
+              {/* Mobile pagination dots (replace native scrollbar) */}
+              <div className="flex items-center justify-center gap-3 pt-3 pb-2">
+                {projects.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => {
+                      const el = scrollContainerRef.current
+                      if (!el) return
+                      el.scrollTo({ left: idx * el.clientWidth, behavior: 'smooth' })
+                      setActiveIndex(idx)
+                    }}
+                    aria-label={`Go to project ${idx + 1}`}
+                    className={`relative transition-all duration-300 ${activeIndex === idx ? 'w-8' : 'w-3'}`}
+                  >
+                    <span className={`block h-3 rounded-full ${activeIndex === idx ? 'bg-white shadow-[0_6px_20px_rgba(255,255,255,0.12)]' : 'bg-white/40'}`} />
+                  </button>
+                ))}
+              </div>
             </motion.div>
           )}
         </AnimatePresence>

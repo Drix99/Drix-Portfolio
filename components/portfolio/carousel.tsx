@@ -136,16 +136,17 @@ export default function Carousel(): JSX.Element {
             <ChevronRight size={24} />
           </button>
 
-          {/* Indicators */}
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+          {/* Pagination Dots */}
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
             {slides.map((_, index) => (
               <button
                 key={index}
                 onClick={() => { setCurrentSlide(index); setIsAutoPlay(false); }}
-                className={`h-3 rounded-full transition-all duration-300 ${
-                  index === currentSlide ? 'bg-white w-8 shadow-[0_0_10px_rgba(255,255,255,0.8)]' : 'bg-white/50 hover:bg-white/75 w-3'
-                }`}
-              />
+                aria-label={`Go to slide ${index + 1}`}
+                className={`relative h-3 transition-all duration-300 ease-out ${index === currentSlide ? 'w-10' : 'w-3'}`}
+              >
+                <span className={`block h-3 rounded-full transition-colors duration-300 ${index === currentSlide ? 'bg-white shadow-[0_6px_20px_rgba(255,255,255,0.12)]' : 'bg-white/40'}`} />
+              </button>
             ))}
           </div>
         </div>

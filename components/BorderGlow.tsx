@@ -10,6 +10,7 @@ interface BorderGlowProps {
   glowIntensity?: number;
   animated?: boolean;
   colors?: string[];
+  interactive?: boolean;
 }
 
 const BorderGlow: React.FC<BorderGlowProps> = ({
@@ -21,6 +22,7 @@ const BorderGlow: React.FC<BorderGlowProps> = ({
   glowRadius = 50,
   glowIntensity = 1,
   colors = ['#22c55e', '#10b981', '#4ade80'],
+  interactive = true,
 }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
@@ -35,10 +37,10 @@ const BorderGlow: React.FC<BorderGlowProps> = ({
   return (
     <div
       ref={cardRef}
-      onPointerMove={handlePointerMove}
-      onPointerEnter={() => setIsHovered(true)}
-      onPointerLeave={() => setIsHovered(false)}
-      className={`relative p-px overflow-hidden ${className}`}
+      onPointerMove={interactive ? handlePointerMove : undefined}
+      onPointerEnter={interactive ? () => setIsHovered(true) : undefined}
+      onPointerLeave={interactive ? () => setIsHovered(false) : undefined}
+      className={`relative p-px overflow-hidden ${!interactive ? 'pointer-events-none' : ''} ${className}`}
       style={{ 
         borderRadius: `${borderRadius}px`,
         background: isHovered ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.05)'
