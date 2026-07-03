@@ -117,7 +117,7 @@ export default function Hero(): JSX.Element {
               initial={{ y: 50, scale: 0.9, opacity: 0 }}
               animate={{ y: 0, scale: 1, opacity: 1 }}
               exit={{ y: 50, scale: 0.9, opacity: 0 }}
-              className="relative bg-[#0c0c0c] border border-white/10 p-6 md:p-8 rounded-[2.5rem] max-w-5xl w-full max-h-[90vh] overflow-y-auto shadow-2xl custom-scrollbar"
+              className="relative bg-[#0c0c0c] border border-white/10 p-6 md:p-8 rounded-5xl max-w-5xl w-full max-h-[90vh] overflow-y-auto shadow-2xl custom-scrollbar"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Header */}
