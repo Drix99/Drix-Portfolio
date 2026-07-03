@@ -29,7 +29,6 @@ export default function About(): JSX.Element {
 
   const quickFacts = [
     { label: 'Projects Completed', value: '4' },
-    { label: 'Years Experience', value: '2+' },
     { label: 'Technologies', value: '13' },
     { label: 'Certifications', value: '5' }
   ]

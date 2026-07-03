@@ -58,11 +58,14 @@ export default function Hero(): JSX.Element {
         <div className="z-20 space-y-8">
           <div className="space-y-4">
             <p className="text-primary text-sm font-bold tracking-[0.3em] uppercase text-center md:text-left">Welcome to my portfolio</p>
-            <div className="relative flex justify-center md:justify-start">
-              <TrueFocus 
-                sentence="Audric Suarez"
-                borderColor="var(--primary)" 
-              />
+            <div className="relative flex flex-col items-start pt-2 w-fit mx-auto md:mx-0">
+              <p className="text-accent font-bold tracking-widest text-sm mb-1 self-start">Hi, I'm</p>
+              <div className="relative flex justify-center w-full">
+                <TrueFocus 
+                  sentence="Audric Suarez"
+                  borderColor="var(--primary)" 
+                />
+              </div>
             </div>
             <p className="text-xl text-foreground/80 font-medium leading-tight text-center md:text-left">
                Software Developer | UI Enthusiast

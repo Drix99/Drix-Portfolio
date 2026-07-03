@@ -398,7 +398,7 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
           </span>
         ))}
       </div>
-      {mounted && (isMobile === false || (isMobile === true && activeTouchTarget)) ? createPortal(overlay, document.body) : null}
+      {mounted && isMobile === false ? createPortal(overlay, document.body) : null}
     </>
   );
 };
