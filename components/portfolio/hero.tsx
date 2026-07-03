@@ -1,7 +1,7 @@
 'use client'
 
 import { ArrowRight, X, Award, ZoomIn } from 'lucide-react'
-import { JSX, useState, useEffect, useRef } from 'react'
+import { JSX, useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import TrueFocus from '../TrueFocus'
 import OrbitImages from '../OrbitImages'
@@ -9,8 +9,6 @@ import OrbitImages from '../OrbitImages'
 export default function Hero(): JSX.Element {
   const [showCerts, setShowCerts] = useState(false);
   const [selectedCert, setSelectedCert] = useState<string | null>(null);
-  const [activeCertIndex, setActiveCertIndex] = useState(0);
-  const certsContainerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const shouldLock = showCerts || selectedCert;
@@ -78,7 +76,6 @@ export default function Hero(): JSX.Element {
           <div className="flex flex-col sm:flex-row items-center gap-6">
             <button 
               onClick={() => {
-                setActiveCertIndex(0);
                 setShowCerts(true);
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
@@ -120,7 +117,7 @@ export default function Hero(): JSX.Element {
               initial={{ y: 50, scale: 0.9, opacity: 0 }}
               animate={{ y: 0, scale: 1, opacity: 1 }}
               exit={{ y: 50, scale: 0.9, opacity: 0 }}
-              className="relative bg-[#0c0c0c] border border-white/10 p-6 md:p-8 rounded-[2.5rem] max-w-5xl w-full max-h-[90vh] overflow-hidden shadow-2xl"
+              className="relative bg-[#0c0c0c] border border-white/10 p-6 md:p-8 rounded-[2.5rem] max-w-5xl w-full max-h-[90vh] overflow-y-auto shadow-2xl custom-scrollbar"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Header */}
@@ -139,82 +136,30 @@ export default function Hero(): JSX.Element {
                 </button>
               </div>
 
-              {/* Slides */}
-              <div
-                ref={certsContainerRef}
-                className="mt-4 overflow-x-auto hide-scrollbar snap-x snap-mandatory scroll-smooth"
-                onScroll={() => {
-                  if (!certsContainerRef.current) return
-                  const index = Math.round(
-                    certsContainerRef.current.scrollLeft /
-                      certsContainerRef.current.clientWidth,
-                  )
-                  setActiveCertIndex(index)
-                }}
-              >
-                <div className="flex gap-6 pb-4">
-                  {myCertificates.map((cert, i) => (
-                    <motion.div
-                      key={i}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0, transition: { delay: i * 0.05 } }}
-                      whileHover={{ y: -5 }}
-                      className="snap-center min-w-full shrink-0"
-                    >
-                      <div className="group bg-white/3 border border-white/5 rounded-3xl p-4 hover:border-primary/40 hover:bg-white/6 transition-all duration-500">
-                        <div
-                          className="relative overflow-hidden rounded-2xl aspect-4/3 bg-black cursor-zoom-in"
-                          onClick={() => setSelectedCert(cert.src)}
-                        >
-                          <img
-                            src={cert.src}
-                            alt={cert.title}
-                            className="object-cover w-full h-full opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700"
-                          />
-                          <div className="absolute inset-0 flex items-center justify-center bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <ZoomIn className="text-white" size={32} />
-                          </div>
-                        </div>
-                        <div className="mt-4 space-y-1">
-                          <h3 className="text-white font-black text-base leading-tight uppercase tracking-tight group-hover:text-primary transition-colors">
-                            {cert.title}
-                          </h3>
-                          <p className="text-[9px] font-mono text-white/30 uppercase tracking-[0.3em] italic">
-                            {cert.issuer}
-                          </p>
-                        </div>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Pagination Dots */}
-              <div className="flex items-center justify-center gap-2 pt-3">
-                {myCertificates.map((_, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => {
-                      if (!certsContainerRef.current) return
-                      certsContainerRef.current.scrollTo({
-                        left: idx * certsContainerRef.current.clientWidth,
-                        behavior: 'smooth',
-                      })
-                      setActiveCertIndex(idx)
-                    }}
-                    aria-label={`Go to achievement ${idx + 1}`}
-                    className={`relative transition-all duration-300 ${
-                      activeCertIndex === idx ? 'w-10' : 'w-3'
-                    }`}
+              {/* Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {myCertificates.map((cert, i) => (
+                  <motion.div 
+                    key={i}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0, transition: { delay: i * 0.1 } }}
+                    whileHover={{ y: -5 }}
+                    className="group bg-white/3 border border-white/5 rounded-3xl p-4 hover:border-primary/40 hover:bg-white/6 transition-all duration-500"
                   >
-                    <span
-                      className={`block h-3 rounded-full transition-colors duration-300 ${
-                        activeCertIndex === idx
-                          ? 'bg-white shadow-[0_6px_20px_rgba(255,255,255,0.12)]'
-                          : 'bg-white/40'
-                      }`}
-                    />
-                  </button>
+                    <div 
+                      className="relative overflow-hidden rounded-2xl aspect-4/3 bg-black cursor-zoom-in"
+                      onClick={() => setSelectedCert(cert.src)}
+                    >
+                      <img src={cert.src} alt={cert.title} className="object-cover w-full h-full opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700" />
+                      <div className="absolute inset-0 flex items-center justify-center bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <ZoomIn className="text-white" size={32} />
+                      </div>
+                    </div>
+                    <div className="mt-4 space-y-1">
+                      <h3 className="text-white font-black text-base leading-tight uppercase tracking-tight group-hover:text-primary transition-colors">{cert.title}</h3>
+                      <p className="text-[9px] font-mono text-white/30 uppercase tracking-[0.3em] italic">{cert.issuer}</p>
+                    </div>
+                  </motion.div>
                 ))}
               </div>
             </motion.div>
