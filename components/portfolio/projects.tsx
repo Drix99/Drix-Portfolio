@@ -174,7 +174,7 @@ export default function Projects(): JSX.Element {
             >
               <motion.div
                 ref={scrollContainerRef}
-                className="flex gap-4 overflow-x-auto pb-4 pl-4 pr-2 snap-x snap-mandatory touch-pan-x"
+                className="flex gap-4 overflow-x-auto pb-4 pl-4 pr-2 snap-x snap-mandatory touch-pan-x scrollbar-hide"
                 whileTap={{ cursor: 'grabbing' }}
               >
                 {projects.map((project) => (
